@@ -36,7 +36,7 @@
 	//coinjs.host = ('https:'==document.location.protocol?'https://':'http://')+'wallet.bitbay.market/api.php';
 	//coinjs.host = ('https:'==document.location.protocol?'https://':'http://')+'bitbay.market/api.php';
 	//coinjs.host = ('https:'==document.location.protocol?'/api.php':'http://195.181.242.206:9998/api');
-	coinjs.host = ('https:'==document.location.protocol?'/api.php':'http://wallet.bitbay.market/api.php');
+	coinjs.host = ('https:'==document.location.protocol?'/api_list.php':'http://wallet.bitbay.market/api_list.php');
 	//coinjs.host = document.location.protocol + '//wallet.bitbay.market/api.php';
 	coinjs.uid = '1';
 	coinjs.key = '12345678901234567890123456789012';
