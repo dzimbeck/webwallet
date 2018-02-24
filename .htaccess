@@ -1,0 +1,14 @@
+#AuthType Basic
+#AuthName "Password Protected Area"
+#AuthUserFile /home/bitbayma/public_html/web_wallet/.htpasswd
+#Require valid-user
+
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule !.*\.html$ %{REQUEST_FILENAME}.html [L]
+
+
+RewriteCond %{HTTPS} off
+RewriteCond %{REQUEST_URI} !^/api\.php
+RewriteCond %{REQUEST_URI} !^/api_list\.php
+RewriteCond %{REQUEST_URI} !^/_test123_/api\.php
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
