@@ -16,8 +16,8 @@ function logg($log_msg) {
   $datetime = date("Y/m/d H:i:s") . " ";
   file_put_contents($log_file_data, $datetime . $log_msg . "\n", FILE_APPEND);
 }
-$lookupTimeout = 60;
-$timeout = 10;
+$lookupTimeout = 40;
+$timeout = 20;
 $opts = array(
   'http'=>array(
     'timeout' => $timeout,
@@ -27,15 +27,16 @@ $context = stream_context_create($opts);
 $file = file_get_contents('http://www.example.com/', false, $context);
                         
 $domains = [
-  "http://195.181.242.206:9998/api?",
-  "http://79.137.38.49:9998/api?",
+  "http://195.181.242.206:9998/api?", /* anoxy */
+  //"http://79.137.38.49:9998/api?", /* giorgosk */
+  "http://104.251.218.154:9998/api" /* anoxy */
 ];
 
 //get random server
 $index = rand(0, count($domains) - 1);
 
 //for testing or try to avoid 1st server
-$index = 1;
+$index = 0;
 
 $start_time = time();    
 while (true) {
