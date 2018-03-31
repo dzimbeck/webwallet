@@ -36,10 +36,52 @@
 	//coinjs.host = ('https:'==document.location.protocol?'https://':'http://')+'wallet.bitbay.market/api.php';
 	//coinjs.host = ('https:'==document.location.protocol?'https://':'http://')+'bitbay.market/api.php';
 	//coinjs.host = ('https:'==document.location.protocol?'/api.php':'http://195.181.242.206:9998/api');
-	coinjs.host = ('https:'==document.location.protocol?'/api_list.php':'http://wallet.bitbay.market/api_list.php');
+	//coinjs.host = ('https:'==document.location.protocol?'/api_list.php':'http://wallet.bitbay.market/api_list.php');
+	//coinjs.host = ('https:'==document.location.protocol?'https://www.gr8g.com/api_list.php':'http://www.gr8g.com/api_list.php');
+	coinjs.host = ('https:'==document.location.protocol?'/api.php':'http://195.181.242.206:9998/api');
+	
+	
 	//coinjs.host = document.location.protocol + '//wallet.bitbay.market/api.php';
 	coinjs.uid = '1';
 	coinjs.key = '12345678901234567890123456789012';
+
+	
+	coinjs.ajaxBalancer = function(call,callback,type){              
+		//shuffleArray(servers); //to randomize ?
+		//servers are called from servers.js maybe do a call here ?
+		console.log(servers);
+		//try to fetch data from first one 
+		//if it does not respond try the next one
+		var start = 0;
+		console.log("trying " + servers[start]);
+		$.ajax({
+			async: true,
+			url: servers[start] + call,
+			type : type,
+			//dataType: 'text',
+			dataType: 'text',
+			tryCount : start,
+			timeout: 15000,
+			retryLimit : servers.length,
+			success : callback,
+			error : function(xhr, textStatus, errorThrown ) {
+				console.log(textStatus + " " + xhr.status);
+				//xhr.status == 500
+				//if (textStatus == 'timeout') {
+				if (['timeout','error','parsererror'].indexOf(textStatus) != -1 ) {
+					this.tryCount++;
+					if (this.tryCount <= this.retryLimit) {
+						//try again
+						this.url = servers[this.tryCount] + call,
+						console.log("trying " + servers[this.tryCount]);
+						$.ajax(this);
+						return;
+					}            
+					return;
+				}
+			}
+		});
+	}
 
 	/* start of address functions */
 
@@ -396,7 +438,8 @@
 	coinjs.addressBalance = function(address, callback){
 		//coinjs.ajax('http://explorer.bitbay.market:9998/api?method=blockchain.address.get_balance&params='+address+'&r='+Math.random(), callback, "GET");
 		//coinjs.ajax('http://195.181.242.206:9998/api?method=blockchain.address.get_balance&params='+address+'&r='+Math.random(), callback, "GET");
-		coinjs.ajax(coinjs.host + '?method=blockchain.address.get_balance&params='+address+'&r='+Math.random(), callback, "GET");
+		//coinjs.ajax(coinjs.host + '?method=blockchain.address.get_balance&params='+address+'&r='+Math.random(), callback, "GET");
+		coinjs.ajaxBalancer('method=blockchain.address.get_balance&params='+address+'&r='+Math.random(), callback, "GET");
 		/*
 				$.ajax ({
 					type: "GET",

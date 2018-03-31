@@ -16,20 +16,24 @@ function logg($log_msg) {
   $datetime = date("Y/m/d H:i:s") . " ";
   file_put_contents($log_file_data, $datetime . $log_msg . "\n", FILE_APPEND);
 }
-$lookupTimeout = 40;
-$timeout = 20;
+$lookupTimeout = 70;
+$timeout = 30;
 $opts = array(
   'http'=>array(
     'timeout' => $timeout,
   )
 );
+
+set_time_limit(80);
+
 $context = stream_context_create($opts);
 $file = file_get_contents('http://www.example.com/', false, $context);
                         
 $domains = [
-  "http://195.181.242.206:9998/api?", /* anoxy */
-  //"http://79.137.38.49:9998/api?", /* giorgosk */
-  "http://104.251.218.154:9998/api" /* anoxy */
+  //"http://104.251.218.154:9998/api?", /* anoxy 2nd */
+  "http://79.137.38.49:9998/api?", /* giorgosk 1st */
+  "http://195.181.242.206:9998/api?", /* anoxy 1st */  
+  //"http://63.142.250.11:9998/api?", /* giorgosk 2nd */
 ];
 
 //get random server
@@ -47,7 +51,7 @@ while (true) {
   $page = file_get_contents($url,false,$context);
   if($page === false){
     logg($domains[$index] . " no response within " . $timeout . " secs");
-  }else if (strpos($page, 'api_status: \"error\"') !== false) {
+  }else if (strpos($page, 'error') !== false) {
     logg($domains[$index] . " unsuccessful response: " . $page);
   }else{
     logg($domains[$index] . " succesful response: " . $page);
