@@ -45,7 +45,7 @@
 	coinjs.uid = '1';
 	coinjs.key = '12345678901234567890123456789012';
 
-	
+	//calls available server from server.js but needs https to work when hosted on https
 	coinjs.ajaxBalancer = function(call,callback,type){              
 		//shuffleArray(servers); //to randomize ?
 		//servers are called from servers.js maybe do a call here ?
@@ -438,8 +438,8 @@
 	coinjs.addressBalance = function(address, callback){
 		//coinjs.ajax('http://explorer.bitbay.market:9998/api?method=blockchain.address.get_balance&params='+address+'&r='+Math.random(), callback, "GET");
 		//coinjs.ajax('http://195.181.242.206:9998/api?method=blockchain.address.get_balance&params='+address+'&r='+Math.random(), callback, "GET");
-		//coinjs.ajax(coinjs.host + '?method=blockchain.address.get_balance&params='+address+'&r='+Math.random(), callback, "GET");
-		coinjs.ajaxBalancer('method=blockchain.address.get_balance&params='+address+'&r='+Math.random(), callback, "GET");
+		coinjs.ajax(coinjs.host + '?method=blockchain.address.get_balance&params='+address+'&r='+Math.random(), callback, "GET");
+		//coinjs.ajaxBalancer('method=blockchain.address.get_balance&params='+address+'&r='+Math.random(), callback, "GET");
 		/*
 				$.ajax ({
 					type: "GET",
