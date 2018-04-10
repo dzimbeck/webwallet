@@ -34,9 +34,9 @@ function url_get_contents ($Url) {
   return $output;
 }
 
-$lookupTimeout = 32;
-$lookupTimeout = 17; /* will lookup two servers */
-$timeout = 15; /* 30*/
+$lookupTimeout = 70;
+$lookupTimeout = 30;
+$timeout = 30;
 $opts = array(
   'http'=>array(
     'timeout' => $timeout,
@@ -67,9 +67,9 @@ while (true) {
   if ((time() - $start_time) > $lookupTimeout) {
     logg("Could not find working server");
   }
-  //$url = $domains[$index] . ($_SERVER['QUERY_STRING']);
+  $url = $domains[$index] . ($_SERVER['QUERY_STRING']);
   $page = file_get_contents($url,false,$context);
-  $page = url_get_contents($url);
+  //$page = file_get_contents($url,false,$context);
   if($page === false){
     logg($domains[$index] . " no response within " . $timeout . " secs");
   }else if (strpos($page, 'error') !== false) {
