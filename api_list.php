@@ -16,8 +16,27 @@ function logg($log_msg) {
   $datetime = date("Y/m/d H:i:s") . " ";
   file_put_contents($log_file_data, $datetime . $log_msg . "\n", FILE_APPEND);
 }
-$lookupTimeout = 70;
-$timeout = 30;
+
+//https://stackoverflow.com/questions/13422346/is-file-get-contents-a-blocking-function
+//https://stackoverflow.com/questions/3979802/alternative-to-file-get-contents
+//perhaps it can have a better response (non blocking)
+function url_get_contents ($Url) {
+  if (!function_exists('curl_init')){ 
+      die('CURL is not installed!');
+  }
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $Url);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+  curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+  $output = curl_exec($ch);
+  curl_close($ch);
+  return $output;
+}
+
+$lookupTimeout = 32;
+$lookupTimeout = 17; /* will lookup two servers */
+$timeout = 15; /* 30*/
 $opts = array(
   'http'=>array(
     'timeout' => $timeout,
@@ -27,7 +46,8 @@ $opts = array(
 set_time_limit(80);
 
 $context = stream_context_create($opts);
-$file = file_get_contents('http://www.example.com/', false, $context);
+//$file = file_get_contents('http://www.example.com/', false, $context);
+//$file = url_get_contents('http://www.example.com/', false, $context);
                         
 $domains = [
   //"http://104.251.218.154:9998/api?", /* anoxy 2nd */
@@ -47,8 +67,9 @@ while (true) {
   if ((time() - $start_time) > $lookupTimeout) {
     logg("Could not find working server");
   }
-  $url = $domains[$index] . ($_SERVER['QUERY_STRING']);
+  //$url = $domains[$index] . ($_SERVER['QUERY_STRING']);
   $page = file_get_contents($url,false,$context);
+  $page = url_get_contents($url);
   if($page === false){
     logg($domains[$index] . " no response within " . $timeout . " secs");
   }else if (strpos($page, 'error') !== false) {
