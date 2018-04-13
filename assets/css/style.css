@@ -161,6 +161,15 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   border: 1px solid transparent;
   border-radius: 0px;
 }
+.loggedout .alert-top {
+	margin: 0 auto;
+	max-width: 600px;
+}
+@media (max-width: 667px) {
+	.loggedout .alert-top {
+		margin: 0 15px;
+	}
+}
 .modal-content {
 	border-radius: 0px;
 	box-shadow: none;
@@ -235,7 +244,17 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 	border-radius: 0px;	
 	background: white;
 }
-
+body {
+	background-color:#6456ab;
+	padding-bottom: 200px;
+  min-height: 100%;
+  position: relative;
+	font-family: 'Roboto', sans-serif;
+	padding-top: 120px;
+}
+h1,h2,h3,h4,h5,h6 {
+	font-family: 'Roboto', sans-serif;	
+}
 /*
 *    general 
 *******************/
@@ -245,14 +264,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 *  front log in 
 */
 
-body {
-	background-color:#6456ab;
-	padding-bottom: 200px;
-  min-height: 100%;
-  position: relative;
-	font-family: 'Roboto', sans-serif;
-	padding-top: 120px;
-}
 .loggedout #wallet > .row > div {
 	padding: 0;	
 }

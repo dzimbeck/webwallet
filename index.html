@@ -41,7 +41,7 @@
 		<link rel="stylesheet" href="assets/css/themes/Cerulean/bootstrap.min.css" media="screen" id="bootstrap-css">
 		<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
 		<link rel="stylesheet" href="assets/css/pnotify.custom.min.css" media="all" >
-		<link rel="stylesheet" href="assets/css/style.css?v=0.24" media="screen">
+		<link rel="stylesheet" href="assets/css/style.css?v=0.27" media="screen">
 		
 		<script type="text/javascript" src="assets/js/errors.js"></script>
 		<!--
@@ -69,13 +69,13 @@
 		<script type="text/javascript" src="js/ellipticcurve.js"></script>
 
 
-		<script type="text/javascript" src="https://wallet.bitbay.market/servers.js?v=0.26"></script>
+		<script type="text/javascript" src="https://wallet.bitbay.market/servers.js?v=0.27"></script>
 		<script type="text/javascript" src="js/coin.js?v=0.27"></script>
-		<script type="text/javascript" src="js/coinbin.js?v=0.26"></script>
+		<script type="text/javascript" src="js/coinbin.js?v=0.27"></script>
 		
 		<script type="text/javascript" src="assets/js/bootstrap-select.min.js"></script>
 		<script type="text/javascript" src="assets/js/html5storage/HTML5.sessionStorage.js"></script>
-		<script type="text/javascript" src="assets/js/custom.js?v=0.24"></script>
+		<script type="text/javascript" src="assets/js/custom.js?v=0.27"></script>
 		<script type="text/javascript" src="assets/js/pnotify.custom.min.js"></script>
 	</head>
 
@@ -99,8 +99,9 @@
 											<p class="walletBalance"></p>
 										</a>
 									</li>
+									<li class="divider-text"></li>
 									<li>
-										<a id="walletLogout" href="#" class="logouthide" role="button" data-destroy="true">Logout</a>
+										<a id="buyBay" href="#buyBay" role="button" data-destroy="true">Buy $BAY</a>
 									</li>
 									<li class="divider-text"></li>
 									<li class="hidden"><a href="#newAddress" data-toggle="tab">New Address</a></li>
@@ -110,6 +111,10 @@
 									<li><a href="#newTransaction" data-toggle="tab">Transaction</a></li>
 									<li><a href="#sign" data-toggle="tab">Sign</a></li>
 									<li><a href="#broadcast" data-toggle="tab">Broadcast</a></li>
+									<li class="divider-text logouthide"></li>
+									<li>
+										<a id="walletLogout" href="#" class="logouthide" role="button" data-destroy="true">Logout</a>
+									</li>
 				        </ul>
 			       </li>
 				    </ul>						
@@ -193,7 +198,18 @@
 												<div class="form-group">
 													<div id="openLoginStatus" class="alert alert-danger hidden"></div>	
 												</div>
-												
+												<div class="form-group form-confirm-pass">
+													<input id="confirmPass" type="checkbox" checked>
+													<label for="confirmPass">Display email and password confirmation fields (recommended)</label>
+												</div>																																		 
+												<div class="form-group form-accept">
+														<p class="underterms">No email/password is stored on our server. If you forget your email or password it CANNOT be recovered! You can print/backup your wallet after you login.</p>
+														<input id="acceptTerms" type="checkbox">
+														<label for="acceptTerms">I have read the 
+															<a href="#disclaimer" role="button" class="btn-flat" data-toggle="modal">disclaimer</a> 
+															and have stored my login information
+														</label>
+												</div>
 												<div class="form-group">
 													<span class="button-checkbox">
 													<input id="remember" type="checkbox"><label for="remember">Stay Logged in (until browser tab closes)</label>
@@ -203,19 +219,6 @@
 														<option value="true">Yes</option>
 													</select>
 													</span>
-												</div>
-												 												
-												<div class="form-group form-accept">
-														<input id="acceptTerms" type="checkbox">
-														<label for="acceptTerms">I have read the 
-															<a href="#disclaimer" role="button" class="btn-flat" data-toggle="modal">disclaimer</a> 
-															and have stored my login information
-															</label>
-															<p class="underterms">Forgotten email or passwords can not be recovered. The website does not  send email/password reminders.</p>
-												</div>
-												<div class="form-group form-confirm-pass">
-														<input id="confirmPass" type="checkbox" checked>
-														<label for="confirmPass">Display email and password confirmation fields (recommended)</label>
 												</div>
 												<div class="form-group form-submit">
 													<input id="openBtn" type="submit" class="btn-flatbay btn-flatbay-inactive" value="Load/Create Wallet">
@@ -1256,6 +1259,10 @@
 						</div>
 						<input type="button" value="Submit" id="rawSubmitBtn" class="btn-flatbay ">
 						<br>
+					</div>
+
+					<div class="tab-pane tab-content" id="buyBay">
+						<h2>Buy Bay</h2>
 					</div>
 
 					<div class="tab-pane tab-content" id="dev">

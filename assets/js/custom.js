@@ -30,8 +30,29 @@ function printNewWindow(divName){
   //w.close();              
 }
  
+function getUrlVars() {
+  var vars = {};
+  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
+  function(m,key,value) {
+    vars[key] = value;
+  });
+  return vars;
+}
 
 $(document).ready(function() {
+  
+  if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.hostname === ""){
+    $("body").addClass("localhost");
+  }
+
+  if(getUrlVars()['r'] == 'success'){
+    //alert alert-success fade in 
+    var message = 
+      "<div class='container'><div class='alert alert-success alert-dismissible alert-top'>"
+      + "<a href='#' class='close' data-dismiss='alert' aria-label='close' title='close'>×</a>"
+      + "The transaction was completed succesfully.<br>Your Bay will be sent to your wallet shortly.</div></div>";      
+    $('#header').after(message);
+  }
 
   //handle pressing menu items or tabs on top of regular/multisig wallet
   function showRegularWallet(){
@@ -158,6 +179,8 @@ $(document).ready(function() {
 
   function confirmEmailPass(){  
     var elem = $('#openBtn');
+    if(elem[0] == null) 
+      return ;
     var oldClick = $._data(elem[0], 'events').click[0].handler;
 		elem.off('click');
 
@@ -285,7 +308,28 @@ $(document).ready(function() {
 
         return false;
 	});
+
+  var loc = window.location.pathname;
+  var dir = loc.substring(0, loc.lastIndexOf('/'));
+  //console.log(dir);
   
+  $('.navbar a').not('.dropdown-toggle').on('click', function(e){
+    if ( window.location.pathname == '/buy.php' ){
+      var href = $(this).attr("href");
+      console.log(href);
+      window.location.href = dir + "/" + href;
+    }
+  });
+  
+  
+  $("#buyBay").on('click', function(e){
+    e.preventDefault();
+    var wallet = $("#walletKeys input.address").val();
+    var bc = $("body").attr("class");
+    //console.log(wallet);
+    //$(this).attr("href","buy.php?wallet=" + wallet);
+    window.location.href = dir + "/buy.php?wallet=" + wallet + "&bc=" + bc;
+  });
   
 	//Remove active class for other menus except for the one which is "clicked"
 	$('ul.dropdown-menu [data-toggle=tab]').on('click', function(e) {
