@@ -10,5 +10,4 @@ RewriteRule !.*\.html$ %{REQUEST_FILENAME}.html [L]
 RewriteCond %{HTTPS} off
 RewriteCond %{REQUEST_URI} !^/api\.php
 RewriteCond %{REQUEST_URI} !^/api_list\.php
-RewriteCond %{REQUEST_URI} !^/_test123_/api\.php
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
