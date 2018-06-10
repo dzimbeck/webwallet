@@ -136,7 +136,7 @@ $(document).ready(function() {
 					txunspent = tx2.deserialize(signed); 
 					signed = txunspent.sign($("#walletKeys .privkey2").val());
 				}
-				
+				console.log("tx:" + signed);
 				//check if address is multisig, then sign with second private key
 				/*
 				var profile_data;
@@ -150,10 +150,16 @@ $(document).ready(function() {
 				// and finally broadcast!
 				tx2.broadcast(function(data){
 					dataJSON = JSON.parse(data);
+					console.log(dataJSON);
 				
-					if(dataJSON.api_status=="success"){
+					if(dataJSON.api_status=="success" || dataJSON.status){
 						callback_result =  dataJSON.result
-						if(callback_result.match(/^[a-f0-9]+$/)){
+						var success = false;
+						if(coinjs.block_processor == 'bp'){
+							success = (dataJSON.status == "success" ? true : false);
+							callback_result = dataJSON.tx;							
+						}
+						if(success || callback_result.match(/^[a-f0-9]+$/)){
 							$("#walletSendConfirmStatus").removeClass('hidden').removeClass('alert-danger').addClass('alert-success').html('Your transaction was successfully sent: <br /><a href="http://explorer.bitbay.market/tx/'+callback_result+'" target="_blank" >Txid: ' + callback_result + '</a>');
 
 							if (devamountVal > 0)
