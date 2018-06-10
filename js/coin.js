@@ -24,6 +24,7 @@
 	coinjs.decimalPlaces = 8;
 	coinjs.symbol = 'BAY';
 	coinjs.debug = false;
+	coinjs.block_processor = 'bp';
 
 	
 	//1jLVpwtNMfXWaHY4eiLDmGuBxokYLgv1X
@@ -36,10 +37,10 @@
 	//coinjs.host = ('https:'==document.location.protocol?'https://':'http://')+'wallet.bitbay.market/api.php';
 	//coinjs.host = ('https:'==document.location.protocol?'https://':'http://')+'bitbay.market/api.php';
 	//coinjs.host = ('https:'==document.location.protocol?'/api.php':'http://195.181.242.206:9998/api');
-	coinjs.host = ('https:'==document.location.protocol?'/api_list.php':'http://wallet.bitbay.market/api_list.php');
+	//coinjs.host = ('https:'==document.location.protocol?'/api_list.php':'http://wallet.bitbay.market/api_list.php');
 	//coinjs.host = ('https:'==document.location.protocol?'https://www.gr8g.com/api_list.php':'http://www.gr8g.com/api_list.php');
-	//coinjs.host = ('https:'==document.location.protocol?'/api.php':'http://195.181.242.206:9998/api');
-	
+	coinjs.host = ('https:'==document.location.protocol?'http://vmi171068.contaboserver.net/api':'http://vmi171068.contaboserver.net/api');
+
 	
 	//coinjs.host = document.location.protocol + '//wallet.bitbay.market/api.php';
 	coinjs.uid = '1';
@@ -438,7 +439,10 @@
 	coinjs.addressBalance = function(address, callback){
 		//coinjs.ajax('http://explorer.bitbay.market:9998/api?method=blockchain.address.get_balance&params='+address+'&r='+Math.random(), callback, "GET");
 		//coinjs.ajax('http://195.181.242.206:9998/api?method=blockchain.address.get_balance&params='+address+'&r='+Math.random(), callback, "GET");
-		coinjs.ajax(coinjs.host + '?method=blockchain.address.get_balance&params='+address+'&r='+Math.random(), callback, "GET");
+		if(coinjs.block_processor == 'bp')
+			coinjs.ajax(coinjs.host + '/balance/'+address, callback, "GET");
+		else
+			coinjs.ajax(coinjs.host + '?method=blockchain.address.get_balance&params='+address+'&r='+Math.random(), callback, "GET");
 		//coinjs.ajaxBalancer('method=blockchain.address.get_balance&params='+address+'&r='+Math.random(), callback, "GET");
 		/*
 				$.ajax ({
@@ -1116,7 +1120,10 @@
 			//coinjs.ajax(coinjs.host+'?uid='+coinjs.uid+'&key='+coinjs.key+'&setBay=BAY&setmodule=addresses&request=unspent&address='+address+'&r='+Math.random(), callback, "GET");
 			//coinjs.ajax('http://explorer.bitbay.market:9998/api?method=blockchain.address.listunspent&params='+address+'&r='+Math.random(), callback, "GET");
 			//coinjs.ajax('http://195.181.242.206:9998/api?method=blockchain.address.listunspent&params='+address+'&r='+Math.random(), callback, "GET");
-			coinjs.ajax(coinjs.host + '?method=blockchain.address.listunspent&params='+address+'&r='+Math.random(), callback, "GET");
+			if(coinjs.block_processor == 'bp')
+				coinjs.ajax(coinjs.host + '/listunspent/'+address, callback, "GET");
+			else
+				coinjs.ajax(coinjs.host + '?method=blockchain.address.listunspent&params='+address+'&r='+Math.random(), callback, "GET");
 		}
 
 		/* add unspent to transaction */
@@ -1217,7 +1224,10 @@
 			var tx = txhex || this.serialize();
 			//coinjs.ajax('http://explorer.bitbay.market:9998/api?method=blockchain.transaction.broadcast&params='+tx+'&r='+Math.random(), callback, "GET");
 			//coinjs.ajax('http://195.181.242.206:9998/api?method=blockchain.transaction.broadcast&params='+tx+'&r='+Math.random(), callback, "GET");
-			coinjs.ajax(coinjs.host + '?method=blockchain.transaction.broadcast&params='+tx+'&r='+Math.random(), callback, "GET");
+			if(coinjs.block_processor == 'bp')
+				coinjs.ajax(coinjs.host + '/broadcast/'+tx, callback, "GET");
+			else
+				coinjs.ajax(coinjs.host + '?method=blockchain.transaction.broadcast&params='+tx+'&r='+Math.random(), callback, "GET");
 		}
 
 		/* generate the transaction hash to sign from a transaction input */
