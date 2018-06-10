@@ -156,8 +156,12 @@ $(document).ready(function() {
 						callback_result =  dataJSON.result
 						var success = false;
 						if(coinjs.block_processor == 'bp'){
-							success = (dataJSON.status == "success" ? true : false);
-							callback_result = dataJSON.tx;							
+							if(dataJSON.status == "success"){
+								success = true;
+								callback_result = dataJSON.tx;							
+							}else{
+								callback_result = dataJSON.msg;							
+							}
 						}
 						if(success || callback_result.match(/^[a-f0-9]+$/)){
 							$("#walletSendConfirmStatus").removeClass('hidden').removeClass('alert-danger').addClass('alert-success').html('Your transaction was successfully sent: <br /><a href="http://explorer.bitbay.market/tx/'+callback_result+'" target="_blank" >Txid: ' + callback_result + '</a>');
