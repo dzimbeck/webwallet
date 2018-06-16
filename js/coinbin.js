@@ -2247,9 +2247,11 @@ $(document).ready(function() {
 						$("#walletMail").html(email);
 						$("#walletAddress").html(address);
 						$("#walletAddressExplorer").html(address);
-						$("#walletAddressExplorer").attr('href','http://explorer.bitbay.market/address/'+address);
-						$("#walletHistory").attr('href','http://explorer.bitbay.market/address/'+address);
-						
+						//$("#walletAddressExplorer").attr('href','http://explorer.bitbay.market/address/'+address);
+						//$("#walletHistory").attr('href','http://explorer.bitbay.market/address/'+address);
+						$("#walletAddressExplorer").attr('href','https://chainz.cryptoid.info/bay/address.dws?'+address+'.htm');
+						$("#walletHistory").attr('href','https://chainz.cryptoid.info/bay/address.dws?'+address+'.htm');
+
 						$("#walletQrCode").html("");
 						var qrcode = new QRCode("walletQrCode");
 						qrcode.makeCode("bitbay:"+address);
