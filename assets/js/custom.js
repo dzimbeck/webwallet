@@ -117,6 +117,12 @@ $(document).ready(function() {
 		$("body").addClass("aTab-" + target);
 	});
 
+  //copy walletKeys that can be shared on first click
+  $('a[href="#walletKeysTab"]').bind('click', function (e) {
+    $("#walletKeys .share-yes").clone().appendTo("#walletKeysCopy");
+    $(this).unbind('click');
+	});
+
 
   //based on the promise that the walletKeys is of the following format
   //first a label and than 1 or more inputs
