@@ -303,8 +303,12 @@
 														</ul>														
 														<div class="tab-content" id="WalletTabContent">
 															<div class="tab-pane fade" id="walletBackup">
+																<div class="backuptext">
+																	The following information can be used to recover your account and funds.  You can manually copy them or print them and store them in a safe place.
+																	<span class="warning">Do not share them with anyone as it provides access to your wallet and therefore your funds.</span>
+																</div>
 																<div class="backupfunctions">
-																	<a href="#print" id="print" class="ul">Print Wallet Info</a><br>
+																	<a href="#print" id="print" class="ul">Print Wallet Information  <span class="glyphicon glyphicon-print"></span></a><br>
 																</div>
 																<div id="printArea" class="hidden">
 																	in here will populate with wallet info
@@ -323,7 +327,7 @@
 																	</div>																	
 
 																	<div class="share-no">																	
-																		<label>Private key (WIF key)</label>
+																		<label>Private key - WIF key (Private - Don't share)</label>
 																		<div class="input-group ">
 																			<input class="form-control privkey" type="password" readonly>
 																			<span class="input-group-btn">
@@ -337,7 +341,7 @@
 																			</span>
 																		</div>
 																		
-																		<label class="wallet_maybe_multisig_keys">AES-256 Encrypted WIF key</label>
+																		<label class="wallet_maybe_multisig_keys">AES-256 Encrypted WIF key (Private - Don't share)</label>
 																		<div class="input-group wallet_maybe_multisig_keys">
 																			<input class="form-control privkeyaes" type="password" readonly>
 																			<span class="input-group-btn">

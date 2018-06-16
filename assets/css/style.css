@@ -488,6 +488,17 @@ body.loggedin {
 .nav-tabs>li>a:hover {
   border-color: transparent;
 }
+.backuptext .warning {
+	color: red;
+}
+.backupfunctions,
+#walletKeys {
+	margin-top: 20px;
+}
+.backupfunctions a {
+	font-weight: bold;
+}
+#walletKeysCopy label,
 #walletKeys label {
 	margin-top: 15px;
 	display: block;
