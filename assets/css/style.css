@@ -498,6 +498,9 @@ body.loggedin {
 #walletKeys input {
 	mmargin-bottom: 10px;
 }
+#walletKeys .share-yes {
+	display: none;
+}
 .form-control[disabled].can-copy, 
 .form-control[readonly].can-copy, 
 fieldset[disabled] .form-control.can-copy {
