@@ -303,10 +303,58 @@
 														</ul>														
 														<div class="tab-content" id="WalletTabContent">
 															<div class="tab-pane fade" id="walletBackup">
-																<a href="#print" id="print" class="ul">Print Wallet Info</a><br>
+																<div class="backupfunctions">
+																	<a href="#print" id="print" class="ul">Print Wallet Info</a><br>
+																</div>
 																<div id="printArea" class="hidden">
 																	in here will populate with wallet info
 																</div>
+																<div id="walletKeys">
+																	<div class="share-yes">
+																		<label>Address (Share)</label>
+																		<input class="form-control address can-copy" type="text" readonly>
+																							
+																		<label class="wallet_multisig_keys">RedeemScript (Share)</label>
+																		<input class="form-control can-copy redeemScript_wallet wallet_multisig_keys" type="text" readonly>
+																		
+																		<label class="wallet_maybe_multisig_keys">Public key (Share)</label>
+																		<input class="form-control pubkey wallet_maybe_multisig_keys can-copy" type="text" readonly>
+																		<input class="form-control pubkey2 wallet_multisig_keys wallet_maybe_multisig_keys can-copy" type="text" readonly>
+																	</div>																	
+
+																	<div class="share-no">																	
+																		<label>Private key (WIF key)</label>
+																		<div class="input-group ">
+																			<input class="form-control privkey" type="password" readonly>
+																			<span class="input-group-btn">
+																				<button class="showKey btn btn-default" type="button">Show</button>
+																			</span>
+																		</div>
+																		<div class="input-group wallet_multisig_keys">
+																			<input class="form-control privkey2" type="password" readonly>
+																			<span class="input-group-btn">
+																				<button class="showKey btn btn-default" type="button">Show</button>
+																			</span>
+																		</div>
+																		
+																		<label class="wallet_maybe_multisig_keys">AES-256 Encrypted WIF key</label>
+																		<div class="input-group wallet_maybe_multisig_keys">
+																			<input class="form-control privkeyaes" type="password" readonly>
+																			<span class="input-group-btn">
+																				<button class="showKey btn btn-default" type="button">Show</button>
+																			</span>
+																		</div>
+																		<div class="input-group wallet_multisig_keys wallet_maybe_multisig_keys">
+																			<input class="form-control privkeyaes2" type="password" readonly>
+																			<span class="input-group-btn">
+																				<button class="showKey btn btn-default" type="button">Show</button>
+																			</span>
+																		</div>
+																	</div>																	
+																</div>
+																<div class="walletnotice">
+																	<p class="text-muted">This page uses javascript to generate your addresses and sign your transactions within your browser, this means we <i>never</i> receive your private keys, this can be independently verified by reviewing the source code on <a href="https://github.com/OutCast3k/coinbin/" target="_blank">github</a>.</p>
+																</div>																
 															</div>
 															<div class="tab-pane fade" id="walletInfo">
 																	- <a class="ul" href="https://bitcointalk.org/index.php?topic=890531.0" target="_blank">Bitcointalk</a><br>
@@ -364,48 +412,7 @@
 																</div>
 															</div>
 															<div class="tab-pane fade" id="walletKeysTab">
-																<div id="walletKeys">
-																	<label>Address (Share)</label>
-																	<input class="form-control address can-copy" type="text" readonly>
-																						
-																	<label class="wallet_multisig_keys">RedeemScript (Share)</label>
-																	<input class="form-control can-copy redeemScript_wallet wallet_multisig_keys" type="text" readonly>
-																	
-																	<label class="wallet_maybe_multisig_keys">Public key (Share)</label>
-																	<input class="form-control pubkey wallet_maybe_multisig_keys can-copy" type="text" readonly>
-																	<input class="form-control pubkey2 wallet_multisig_keys wallet_maybe_multisig_keys can-copy" type="text" readonly>
-																	
-																	<label>Private key (WIF key)</label>
-																	<div class="input-group ">
-																		<input class="form-control privkey" type="password" readonly>
-																		<span class="input-group-btn">
-																			<button class="showKey btn btn-default" type="button">Show</button>
-																		</span>
-																	</div>
-																	<div class="input-group wallet_multisig_keys">
-																		<input class="form-control privkey2" type="password" readonly>
-																		<span class="input-group-btn">
-																			<button class="showKey btn btn-default" type="button">Show</button>
-																		</span>
-																	</div>
-																	
-																	<label class="wallet_maybe_multisig_keys">AES-256 Encrypted WIF key</label>
-																	<div class="input-group wallet_maybe_multisig_keys">
-																		<input class="form-control privkeyaes" type="password" readonly>
-																		<span class="input-group-btn">
-																			<button class="showKey btn btn-default" type="button">Show</button>
-																		</span>
-																	</div>
-																	<div class="input-group wallet_multisig_keys wallet_maybe_multisig_keys">
-																		<input class="form-control privkeyaes2" type="password" readonly>
-																		<span class="input-group-btn">
-																			<button class="showKey btn btn-default" type="button">Show</button>
-																		</span>
-																	</div>
-																</div>
-																<div class="walletnotice">
-																	<p class="text-muted">This page uses javascript to generate your addresses and sign your transactions within your browser, this means we <i>never</i> receive your private keys, this can be independently verified by reviewing the source code on <a href="https://github.com/OutCast3k/coinbin/" target="_blank">github</a>.</p>
-																</div>																
+
 															</div>
 														</div>
 													</div>
