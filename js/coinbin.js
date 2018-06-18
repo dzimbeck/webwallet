@@ -288,7 +288,7 @@ $(document).ready(function() {
 			data = $.parseJSON(data);
 			if (coinjs.debug) {console.log(data)};
 		
-			if(data.api_status=="success"){
+			if(data.api_status=="success" && data.err != "Unknown address"){
 				//var v = data.result.confirmed/("1e"+coinjs.decimalPlaces);
 				
 				
@@ -306,7 +306,7 @@ $(document).ready(function() {
 				$(".walletBalance").html(newBalance+" "+coinjs.symbol).attr('rel',newBalance).fadeOut().fadeIn();
 
 			} else {
-				$(".walletBalance").html("0.00 "+coinjs.symbol).attr('rel',v).fadeOut().fadeIn();
+				$(".walletBalance").html("0.00 "+coinjs.symbol).attr('rel','0.00').fadeOut().fadeIn();
 				PNotify_helper('Hello dear!', 'Why not deposit some '+coinjs.symbol+'?', 'info');
 				//Error getting API info
 			}
