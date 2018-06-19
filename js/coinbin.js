@@ -35,8 +35,11 @@ $(document).ready(function() {
 	//$("#walletLogout").click(function(sessionDestroy = false){
 	$("#walletLogout").click(function(e){
 		$("#openEmail").val("");
+		$("#openEmail-confirm").val("");
 		$("#openPass").val("");
+		$("#openPass-confirm").val("");
 		$("#openPass2").val("");
+		$("#openPass2-confirm").val("");
 		
 		//Menu Account Info
 		$(".walletEmail").text("");
@@ -2021,7 +2024,8 @@ $(document).ready(function() {
 	checkPassword = function (val) {
 		var str = val;
 		//var str = el.val();
-
+		var regex = /^(((.*\d.*[A-Z].*[!@#%&¨*¤()+-={}[\]"'*:.,<>_\-$€%^&amp;amp;*? ~].*))|(.*[A-Z].*\d.*[!@#%&¨*¤()+-={}[\]"'*:.,<>_\-$€%^&amp;amp;*? ~].*)|(.*[!@#%&¨*¤()+-={}[\]"'*:.,<>_\-$€%^&amp;amp;*? ~].*[A-Z].*\d.*)|(.*[!@#%&¨*¤()+-={}[\]"'*:.,<>_\-$€%^&amp;amp;*? ~].*\d.*[A-Z].*))$/i;
+		
 			var msg = '';
 			if (str.length < 12) {
 				msg= ("too_short");
@@ -2034,11 +2038,16 @@ $(document).ready(function() {
 			} else if (str.search(/[A-Z]/) == -1) {
 				msg= ("no_upper_case");
 			//} else if (str.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+\.\=\,\;\:\!\-]/) != -1) {
-			} else if (str.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+\.\=\,\;\:\!\-\[\]\}\{\/\\\?\>\<\^]/) != -1) {
-				msg= ("bad_char");
+			//} else if (str.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+\.\=\,\;\:\!\-\[\]\}\{\/\\\?\>\<\^]/) != -1) {
+				//msg= ("bad_char");
 			}else {
 				msg=("");
 				//$('.checkInputsPassword').addClass('hide')
+			}
+			
+			// patter to match : Atleast one number ,one capital letter, one lower case letter, one special character
+			if (!regex.test(str)) {
+				msg= ("bad_char");
 			}
 			
 			if (msg != '') {
@@ -2167,16 +2176,24 @@ $(document).ready(function() {
 					coinjs.compressed = true;
 					var scriptPubKey = "";
 
+					console.log('profile_data 1');
+					console.log(profile_data);
 					
 					//Check Wallet Type
-					if ( typeof profile_data.passwords[1].password !== "undefined" && checkPassword(profile_data.passwords[1].password) && profile_data.passwords[1].password != "") 
+					//if ( typeof profile_data.passwords[1].password !== "undefined" && checkPassword(profile_data.passwords[1].password) && profile_data.passwords[1].password != "") 
+					if ( profile_data.passwords[1].password != "") 
 						profile_data.wallet_type = "multisig";
 					else
 						profile_data.wallet_type = "regular";
 
+					console.log('profile_data 2');
+					console.log(profile_data);
+					
 					//Check for Multisig address and Regular address
-					if (profile_data.wallet_type == "multisig" && typeof profile_data.passwords[1].password !== "undefined") {
+					//if (profile_data.wallet_type == "multisig" && typeof profile_data.passwords[1].password !== "undefined") {
+					if (profile_data.wallet_type == "multisig" ) {
 						
+						console.log('line 2188 lol');
 						//Create Multisig address
 						var pass2 = profile_data.passwords[1].password;
 						if( checkPassword(pass2) ){
