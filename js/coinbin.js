@@ -1825,7 +1825,7 @@ $(document).ready(function() {
 	});
 
 	window.addEventListener("popstate", function(e) {
-		var activeTab = $('[href=' + location.hash + ']');
+		var activeTab = $('[href="' + location.hash + '"]');
 		if (activeTab.length) {
 			activeTab.tab('show');
 		} else {
@@ -2024,7 +2024,6 @@ $(document).ready(function() {
 	checkPassword = function (val) {
 		var str = val;
 		//var str = el.val();
-		var regex = /^(((.*\d.*[A-Z].*[!@#%&¨*¤()+-={}[\]"'*:.,<>_\-$€%^&amp;amp;*? ~].*))|(.*[A-Z].*\d.*[!@#%&¨*¤()+-={}[\]"'*:.,<>_\-$€%^&amp;amp;*? ~].*)|(.*[!@#%&¨*¤()+-={}[\]"'*:.,<>_\-$€%^&amp;amp;*? ~].*[A-Z].*\d.*)|(.*[!@#%&¨*¤()+-={}[\]"'*:.,<>_\-$€%^&amp;amp;*? ~].*\d.*[A-Z].*))$/i;
 		
 			var msg = '';
 			if (str.length < 12) {
@@ -2045,7 +2044,9 @@ $(document).ready(function() {
 				//$('.checkInputsPassword').addClass('hide')
 			}
 			
-			// patter to match : Atleast one number ,one capital letter, one lower case letter, one special character
+			// pattern to match : At least one number ,one letter and one special character
+			//var regex = /^(((.*\d.*[A-Z].*[!@#%&¨*¤()+-={}[\]"'*:.,<>_\-$€%^&amp;amp;*? ~].*))|(.*[A-Z].*\d.*[!@#%&¨*¤()+-={}[\]"'*:.,<>_\-$€%^&amp;amp;*? ~].*)|(.*[!@#%&¨*¤()+-={}[\]"'*:.,<>_\-$€%^&amp;amp;*? ~].*[A-Z].*\d.*)|(.*[!@#%&¨*¤()+-={}[\]"'*:.,<>_\-$€%^&amp;amp;*? ~].*\d.*[A-Z].*))$/i;
+			var regex = /.*\d.*\w.*\D.*/i;
 			if (!regex.test(str)) {
 				msg= ("bad_char");
 			}
