@@ -32,6 +32,13 @@ $(document).ready(function() {
 		checkUserLogin(profile_data);
 	});
 
+	//copy walletKeys so sensitive info stay in the backup tab
+	function copyWalletInfo(){
+		console.log("copyWalletInfo");
+		$("#walletKeysCopy").empty();
+		$("#walletKeys .share-yes").clone().appendTo("#walletKeysCopy");
+	}
+
 	//$("#walletLogout").click(function(sessionDestroy = false){
 	$("#walletLogout").click(function(e){
 		$("#openEmail").val("");
@@ -2327,7 +2334,7 @@ $(document).ready(function() {
 
 		$("#openLoginStatus").prepend('<span class="glyphicon glyphicon-exclamation-sign"></span> ');
 		
-		
+		copyWalletInfo();	
 	}
 	//Check User Session
 	checkUserLogin(HTML5.sessionStorage('profile_data').get());
