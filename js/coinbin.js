@@ -2021,9 +2021,12 @@ $(document).ready(function() {
 	/*
 	 @ Check Password
 	*/
-	checkPassword = function (val) {
+		checkPassword = function (val) {
 		var str = val;
 		//var str = el.val();
+		
+		
+		
 		
 			var msg = '';
 			if (str.length < 12) {
@@ -2037,8 +2040,8 @@ $(document).ready(function() {
 			} else if (str.search(/[A-Z]/) == -1) {
 				msg= ("no_upper_case");
 			//} else if (str.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+\.\=\,\;\:\!\-]/) != -1) {
-			//} else if (str.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+\.\=\,\;\:\!\-\[\]\}\{\/\\\?\>\<\^]/) != -1) {
-				//msg= ("bad_char");
+			} else if (str.search(/[^a-zA-Z0-9\!\@\#\$\"\'\%\^\&\*\(\)\_\+\.\=\~\¨\|\,\;\:\!\-\[\]\}\{\/\\\?\>\<\^]/) != -1) {
+				msg= ("bad_char");
 			}else {
 				msg=("");
 				//$('.checkInputsPassword').addClass('hide')
@@ -2046,10 +2049,9 @@ $(document).ready(function() {
 			
 			// pattern to match : At least one number ,one letter and one special character
 			//var regex = /^(((.*\d.*[A-Z].*[!@#%&¨*¤()+-={}[\]"'*:.,<>_\-$€%^&amp;amp;*? ~].*))|(.*[A-Z].*\d.*[!@#%&¨*¤()+-={}[\]"'*:.,<>_\-$€%^&amp;amp;*? ~].*)|(.*[!@#%&¨*¤()+-={}[\]"'*:.,<>_\-$€%^&amp;amp;*? ~].*[A-Z].*\d.*)|(.*[!@#%&¨*¤()+-={}[\]"'*:.,<>_\-$€%^&amp;amp;*? ~].*\d.*[A-Z].*))$/i;
-			var regex = /.*\d.*\w.*\D.*/i;
-			if (!regex.test(str)) {
-				msg= ("bad_char");
-			}
+			//var regex = /.*\d.*\w.*\D.*/i;
+			//if (!regex.test(str)) {msg= ("bad_char");}
+			
 			
 			if (msg != '') {
 				//$('.checkInputsError').removeClass('hide');
