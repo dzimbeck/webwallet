@@ -134,7 +134,7 @@ $(document).ready(function() {
       
     var print = [];
 
-    print.push("<h2>bitbay.wallet.market login information</h1>");
+    print.push("<h2>wallet login information</h1>");
     
     //passwords
     print.push("<h3>Email</h2>");
