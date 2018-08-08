@@ -7,10 +7,21 @@
     $datetime = date("Y/m/d H:i:s") . " ";
     file_put_contents("callback.log", $datetime . $log_msg . "\n", FILE_APPEND);
   }
+  function sanitize($var,$type="string"){
+    if($type == "string"){
+      return filter_var ( $var, FILTER_SANITIZE_STRING);
+    }elseif($type == "email"){
+      return filter_var ( $var, FILTER_SANITIZE_EMAIL);
+    }elseif($type == "float"){
+      return filter_var ( $var, FILTER_SANITIZE_NUMBER_FLOAT);
+    }elseif($type == "int"){
+      return filter_var ( $var, FILTER_SANITIZE_NUMBER_INT);
+    }
+  }
 
   $redirect = "";
   if(isset($_REQUEST["r"])){
-    $redirect = $_REQUEST["r"];
+    $redirect = sanitize($_REQUEST["r"]);
     if($redirect == "success"){
       $messages .= "<div class='alert alert-success'>The transaction was completed succesfully.<br>Your Bay will be sent to your wallet shortly.</div>";      
     }
@@ -60,32 +71,32 @@
     $refresh = true;
   }
   
-  $user_id = $_POST["email"];
+  $user_id = sanitize($_POST["email"],"email");
   //$wallet = $_POST["wallet"];
-  $wallet = $_REQUEST["wallet"];
+  $wallet = sanitize($_REQUEST["wallet"]);
   
   $bodyclass = "loggedout";
   if(isset($_REQUEST["bc"])){
-    $bodyclass = $_REQUEST["bc"];
+    $bodyclass = sanitize($_REQUEST["bc"]);
   }
   
   $args = "?action=check-buy";
   if(isset($_REQUEST["action"])){
-    $action = $_REQUEST["action"];
+    $action = sanitize($_REQUEST["action"]);
   }
   if(isset($_REQUEST["testing"])){
-    $testing = $_REQUEST["testing"];
+    $testing = sanitize($_REQUEST["testing"]);
     $args .= "&testing=".$testing;
   }
   if(isset($_REQUEST["currency"])){
-    $currency = $_REQUEST["currency"];
+    $currency = sanitize($_REQUEST["currency"]);
   }
   if(isset($_REQUEST["debug"])){
-    $debug = $_REQUEST["debug"];
+    $debug = sanitize($_REQUEST["debug"]);
     $args .= "&debug=".$debug;
   }
   if(isset($_REQUEST["amount"])){
-    $amount = intval($_REQUEST["amount"]);
+    $amount = intval(sanitize($_REQUEST["amount"],"int"));
   }
  
   
