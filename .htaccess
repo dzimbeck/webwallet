@@ -20,6 +20,7 @@ RewriteRule !.*\.html$ %{REQUEST_FILENAME}.html [L]
 #RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
 RewriteEngine On 
+RewriteCond %{HTTP_HOST} ^wallet\.bitbay\.market$ [NC]
 RewriteCond %{SERVER_PORT} 80 
 RewriteCond %{REQUEST_URI} !^/api\.php
 RewriteCond %{REQUEST_URI} !^/api_list\.php
