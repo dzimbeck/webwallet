@@ -1,7 +1,6 @@
 <?php
   session_start();
-  include "_variables.php";
-
+  
   function logg($log_msg) {
     date_default_timezone_set("UTC");
     $datetime = date("Y/m/d H:i:s") . " ";
