@@ -317,7 +317,7 @@ $(document).ready(function() {
 
 			} else {
 				$(".walletBalance").html("0.00 "+coinjs.symbol).attr('rel','0.00').fadeOut().fadeIn();
-				PNotify_helper('Hello dear!', 'Why not deposit some '+coinjs.symbol+'?', 'info');
+				PNotify_helper('Welcome!', 'Why not deposit some '+coinjs.symbol+'?', 'info');
 				//Error getting API info
 			}
 			
