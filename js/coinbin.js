@@ -1,4 +1,5 @@
 var profile_data = "";
+var debug = false;
 
 $(document).ready(function() {
 
@@ -34,7 +35,9 @@ $(document).ready(function() {
 
 	//copy walletKeys so sensitive info stay in the backup tab
 	function copyWalletInfo(){
-		console.log("copyWalletInfo");
+		if (debug) {
+			console.log("copyWalletInfo");
+		}
 		$("#walletKeysCopy").empty();
 		$("#walletKeys .share-yes").clone().appendTo("#walletKeysCopy");
 	}
@@ -146,7 +149,9 @@ $(document).ready(function() {
 					txunspent = tx2.deserialize(signed); 
 					signed = txunspent.sign($("#walletKeys .privkey2").val());
 				}
-				console.log("tx:" + signed);
+				if (debug) {
+					console.log("tx:" + signed);
+				}
 				//check if address is multisig, then sign with second private key
 				/*
 				var profile_data;
@@ -160,8 +165,9 @@ $(document).ready(function() {
 				// and finally broadcast!
 				tx2.broadcast(function(data){
 					dataJSON = JSON.parse(data);
-					console.log(dataJSON);
-				
+					if (debug) {					
+						console.log(dataJSON);
+					}
 					if(dataJSON.api_status=="success" || dataJSON.status){
 						callback_result =  dataJSON.result
 						var success = false;
@@ -296,7 +302,7 @@ $(document).ready(function() {
 		$("#walletLoader").removeClass("hidden");
 		coinjs.addressBalance($("#walletAddress").html(),function(data){
 			data = $.parseJSON(data);
-			if (coinjs.debug) {console.log(data)};
+			if (debug) {console.log(data)};
 		
 			if(data.api_status=="success" && data.err != "Unknown address"){
 				//var v = data.result.confirmed/("1e"+coinjs.decimalPlaces);
@@ -497,7 +503,9 @@ $(document).ready(function() {
 		//var d = Date();
 		//console.log(date);
 		var offset = new Date().getTimezoneOffset();//minutes
-		console.log(offset);
+		if (debug) {
+			console.log(offset);
+		}
 		//var offset = (-1) * offset * 60000;		//milliseconds
 		//console.log(offset);
 		//return Math.round(new Date(date + offset).getTime() / 1000);
@@ -1114,7 +1122,7 @@ $(document).ready(function() {
 
 		var scriptPubKey_buffer = Crypto.util.bytesToHex(scriptPubKey.buffer);
 		
-		if (coinjs.debug) {
+		if (debug) {
 			for (var k in redeem){
 				if (redeem.hasOwnProperty(k)) {
 					 console.log("Key is " + k + ", value is" + redeem[k]);
@@ -1157,7 +1165,7 @@ $(document).ready(function() {
 										var script = script;
 										var amount = (o.value/100000000).toFixed(8);
 										addOutput(tx, n, script, amount);
-										if (coinjs.debug) {
+										if (debug) {
 											console.log('txId: ' + tx + ' txIdN: '+n+' txIdAmount: ' + amount + ' script: '+ script);
 										}
 									}
@@ -2185,25 +2193,26 @@ $(document).ready(function() {
 								
 					coinjs.compressed = true;
 					var scriptPubKey = "";
-
-					console.log('profile_data 1');
-					console.log(profile_data);
 					
+					if (debug) {											
+						console.log('profile_data 1');
+						console.log(profile_data);
+					}
 					//Check Wallet Type
 					//if ( typeof profile_data.passwords[1].password !== "undefined" && checkPassword(profile_data.passwords[1].password) && profile_data.passwords[1].password != "") 
 					if ( profile_data.passwords[1].password != "") 
 						profile_data.wallet_type = "multisig";
 					else
 						profile_data.wallet_type = "regular";
-
-					console.log('profile_data 2');
-					console.log(profile_data);
 					
+					if (debug) {
+						console.log('profile_data 2');
+						console.log(profile_data);
+					}
 					//Check for Multisig address and Regular address
 					//if (profile_data.wallet_type == "multisig" && typeof profile_data.passwords[1].password !== "undefined") {
 					if (profile_data.wallet_type == "multisig" ) {
 						
-						console.log('line 2188 lol');
 						//Create Multisig address
 						var pass2 = profile_data.passwords[1].password;
 						if( checkPassword(pass2) ){

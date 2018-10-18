@@ -57,7 +57,7 @@
 		//try to fetch data from first one 
 		//if it does not respond try the next one
 		var start = 0;
-		console.log("trying " + servers[start]);
+		//console.log("trying " + servers[start]);		
 		$.ajax({
 			async: true,
 			url: servers[start] + call,
@@ -77,7 +77,7 @@
 					if (this.tryCount <= this.retryLimit) {
 						//try again
 						this.url = servers[this.tryCount] + call,
-						console.log("trying " + servers[this.tryCount]);
+						//console.log("trying " + servers[this.tryCount]);
 						$.ajax(this);
 						return;
 					}            
