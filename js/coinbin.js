@@ -14,10 +14,11 @@ $(document).ready(function() {
 		var remember_me = $("#rememberMe").val();
 		var email = $("#openEmail").val().toLowerCase();
 		var email = email.trim();
+		var walletType = $("#regularwallet").hasClass("active") ? "regular" : "multisig";
 		
 		profile_data = { 
 		"email" : email,
-		"wallet_type" : "",	//regular (login normal address), multisig (login multisig address), key (login with private key)
+		"wallet_type" : walletType,	//regular (login normal address), multisig (login multisig address), key (login with private key)
 		"remember_me" : remember_me,
 		"signatures" : 1,
 		"passwords" : [
@@ -2200,10 +2201,10 @@ $(document).ready(function() {
 					}
 					//Check Wallet Type
 					//if ( typeof profile_data.passwords[1].password !== "undefined" && checkPassword(profile_data.passwords[1].password) && profile_data.passwords[1].password != "") 
-					if ( profile_data.passwords[1].password != "") 
-						profile_data.wallet_type = "multisig";
-					else
-						profile_data.wallet_type = "regular";
+					//if ( profile_data.passwords[1].password != "") 
+					//	profile_data.wallet_type = "multisig";
+					//else
+					//	profile_data.wallet_type = "regular";
 					
 					if (debug) {
 						console.log('profile_data 2');
@@ -2253,7 +2254,7 @@ $(document).ready(function() {
 							}
 
 						} else {
-							$("#openLoginStatus").html("Your second password must at least have 12 chars and must include minimum 1 special char, 1 number, 1 uppercase letter and 1 lowercase letter. '" + pass2+"'").removeClass("hidden").fadeOut().fadeIn();
+							$("#openLoginStatus").html("Your 2nd password must at least have 12 chars and must include minimum 1 number, 1 uppercase letter, 1 lowercase letter and 1 special character from !@#$%^&*()_+.=,;:!-[]}{/\?><^").removeClass("hidden").fadeOut().fadeIn();							
 						}
 						
 					//Create Regular address
