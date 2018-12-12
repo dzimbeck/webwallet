@@ -40,8 +40,8 @@
 	//coinjs.host = ('https:'==document.location.protocol?'/api_list.php':'http://wallet.bitbay.market/api_list.php');
 	//coinjs.host = ('https:'==document.location.protocol?'https://www.gr8g.com/api_list.php':'http://www.gr8g.com/api_list.php');
 	//coinjs.host = ('https:'==document.location.protocol?'https://vmi171068.contaboserver.net/api':'http://vmi171068.contaboserver.net/api');
-	coinjs.host = ('https:'==document.location.protocol?'https://bp1.bitbay.market/api':'http://bp1.bitbay.market/api');
-	//coinjs.host = ('https:'==document.location.protocol?'https://bp2.bitbay.market/api':'http://bp2.bitbay.market/api');
+	//coinjs.host = ('https:'==document.location.protocol?'https://bp1.bitbay.market/api':'http://bp1.bitbay.market/api');
+	coinjs.host = ('https:'==document.location.protocol?'https://bp2.bitbay.market/api':'http://bp2.bitbay.market/api');
 	//coinjs.host = ('https:'==document.location.protocol?'https://bp.bitbay.market/api':'http://bp.bitbay.market/api');
 
 	
