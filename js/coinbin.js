@@ -2045,7 +2045,7 @@ $(document).ready(function() {
 		
 		
 			var msg = '';
-			if (str.length < 10) {
+			if (str.length < 12) {
 				msg= ("too_short");
 			} else if (str.length > 255) {
 				msg= ("too_long");
