@@ -181,7 +181,9 @@ $(document).ready(function() {
 							}
 						}
 						if(success || callback_result.match(/^[a-f0-9]+$/)){
-							$("#walletSendConfirmStatus").removeClass('hidden').removeClass('alert-danger').addClass('alert-success').html('Your transaction was successfully sent: <br /><a href="http://explorer.bitbay.market/tx/'+callback_result+'" target="_blank" >Txid: ' + callback_result + '</a>');
+							var mess = 'Your transaction was successfully sent: <br />'
+							 +'<a href="http://explorer.bitbay.market/tx/'+callback_result+'" target="_blank" >Txid: ' + callback_result + '</a>';
+							$("#walletSendConfirmStatus").removeClass('hidden').removeClass('alert-danger').addClass('alert-success').html(mess);
 
 							if (devamountVal > 0)
 								$("#walletSendConfirmStatus").html( $("#walletSendConfirmStatus").html() + '<br /> <span class="glyphicon glyphicon-heart"></span> Thank you very much for your donation');
@@ -1330,7 +1332,9 @@ $(document).ready(function() {
 				if(data.api_status=="success"){
 					callback_result =  data.result
 					if(callback_result.match(/^[a-f0-9]+$/)){
-						$("#rawTransactionStatus").addClass('alert-success').removeClass('alert-danger').removeClass("hidden").html('Your transaction was successfully sent: <br /><a href="http://explorer.bitbay.market/tx/'+callback_result+'" target="_blank" >Txid: ' + callback_result + '</a>');
+						var mess = 'Your transaction was successfully sent: <br />'
+						+ '<a href="http://explorer.bitbay.market/tx/'+callback_result+'" target="_blank" >Txid: ' + callback_result + '</a>';
+						$("#rawTransactionStatus").addClass('alert-success').removeClass('alert-danger').removeClass("hidden").html(mess);
 					} else {
 						//$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-danger').html(unescape(callback_result).replace(/\+/g,' '));
 						$("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(unescape(callback_result)).prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');
