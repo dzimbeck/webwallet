@@ -1141,8 +1141,7 @@ $(document).ready(function() {
 		$.ajax ({
 			type: "GET",
 			//url: "http://195.181.242.206:9998/api?method=blockchain.address.listunspent",
-			url:  coinjs.host + "?method=blockchain.address.listunspent",
-			data: "params="+redeem.addr,
+			url:  coinjs.host + "/listunspent/" + redeem.addr,
 			dataType: "json",
 			error: function(data) {
 				$("#redeemFromStatus").removeClass('hidden').html('<span class="glyphicon glyphicon-exclamation-sign"></span> Unexpected error, unable to retrieve unspent outputs!');
