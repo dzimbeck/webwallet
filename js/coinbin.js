@@ -1318,8 +1318,7 @@ $(document).ready(function() {
 		$.ajax ({
 			type: "GET",
 			//url: "http://195.181.242.206:9998/api?method=blockchain.transaction.broadcast",
-			url: coinjs.host + "?method=blockchain.transaction.broadcast",
-			data: {"params":$("#rawTransaction").val()},
+			url: coinjs.host + "/broadcast/" + $("#rawTransaction").val(),
 			dataType: "json",
 			error: function(data) {
 				var obj = $.parseJSON(data.result);
