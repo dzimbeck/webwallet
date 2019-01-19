@@ -1337,8 +1337,14 @@ $(document).ready(function() {
 					$("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(r).prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');	
 				}
 			},
-      success: function(data) {
-				if(data.api_status=="success"){
+      		success: function(data) {
+				if(data.status == "success"){
+					var mess = 'Your transaction was successfully sent: <br />'
+					+'<a href="https://chainz.cryptoid.info/bay/tx.dws?'+data.tx+'.htm" target="_blank" >Txid: ' + data.tx + '</a>';
+					//+ '<a href="http://explorer.bitbay.market/tx/'+callback_result+'" target="_blank" >Txid: ' + callback_result + '</a>';
+					$("#rawTransactionStatus").addClass('alert-success').removeClass('alert-danger').removeClass("hidden").html(mess);
+				}
+				else if(data.api_status=="success"){
 					callback_result =  data.result
 					if(callback_result.match(/^[a-f0-9]+$/)){
 						var mess = 'Your transaction was successfully sent: <br />'
