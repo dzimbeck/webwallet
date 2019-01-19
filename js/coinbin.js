@@ -182,7 +182,8 @@ $(document).ready(function() {
 						}
 						if(success || callback_result.match(/^[a-f0-9]+$/)){
 							var mess = 'Your transaction was successfully sent: <br />'
-							 +'<a href="http://explorer.bitbay.market/tx/'+callback_result+'" target="_blank" >Txid: ' + callback_result + '</a>';
+							 +'<a href="https://chainz.cryptoid.info/bay/tx.dws?'+callback_result+'.htm" target="_blank" >Txid: ' + callback_result + '</a>';
+							// +'<a href="http://explorer.bitbay.market/tx/'+callback_result+'" target="_blank" >Txid: ' + callback_result + '</a>';
 							$("#walletSendConfirmStatus").removeClass('hidden').removeClass('alert-danger').addClass('alert-success').html(mess);
 
 							if (devamountVal > 0)
@@ -1333,7 +1334,8 @@ $(document).ready(function() {
 					callback_result =  data.result
 					if(callback_result.match(/^[a-f0-9]+$/)){
 						var mess = 'Your transaction was successfully sent: <br />'
-						+ '<a href="http://explorer.bitbay.market/tx/'+callback_result+'" target="_blank" >Txid: ' + callback_result + '</a>';
+						+'<a href="https://chainz.cryptoid.info/bay/tx.dws?'+callback_result+'.htm" target="_blank" >Txid: ' + callback_result + '</a>';
+						//+ '<a href="http://explorer.bitbay.market/tx/'+callback_result+'" target="_blank" >Txid: ' + callback_result + '</a>';
 						$("#rawTransactionStatus").addClass('alert-success').removeClass('alert-danger').removeClass("hidden").html(mess);
 					} else {
 						//$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-danger').html(unescape(callback_result).replace(/\+/g,' '));
