@@ -1321,11 +1321,21 @@ $(document).ready(function() {
 			url: coinjs.host + "/broadcast/" + $("#rawTransaction").val(),
 			dataType: "json",
 			error: function(data) {
-				var obj = $.parseJSON(data.result);
-				var r = ' ';
-				r += (obj.data.tx_hex) ? obj.data.tx_hex : '';
-				r = (r!='') ? r : ' Failed to broadcast'; // build response 
-				$("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(r).prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');
+				if(data.status == "500"){
+					var obj = $.parseJSON(data.responseText);
+					r = ' Error occured: ' + obj.msg;
+					$("#rawTransactionStatus")
+						.removeClass('alert-success')
+						.addClass('alert-danger')
+						.removeClass("hidden").html(r)
+						.prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');	
+				}else{
+					var obj = $.parseJSON(data.result);
+					var r = ' ';
+					r += (obj.data.tx_hex) ? obj.data.tx_hex : '';
+					r = (r!='') ? r : ' Failed to broadcast'; // build response 
+					$("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(r).prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');	
+				}
 			},
       success: function(data) {
 				if(data.api_status=="success"){
