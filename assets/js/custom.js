@@ -143,7 +143,7 @@ $(document).ready(function() {
     }
     
     var lastIn = "";
-    $( "#walletKeys label, #walletKeys input" ).each(function( i ) {
+    $( "#walletKeys label, #walletKeys input" ).not(".hide").each(function( i ) {
       //console.log($(this).prop("tagName") + " " + i);
       if ( $(this).prop("tagName") == "LABEL" ) {
         print.push("<h3>" + $(this).html() + "</h2>");
