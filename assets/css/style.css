@@ -601,6 +601,23 @@ fieldset[disabled] .form-control.can-copy {
 *******************/
 
 /*******************
+*   warning 
+*/
+
+#warning {
+	padding: 15px !important;
+} 
+
+#warning > div {
+	background-color: #f79595;
+	padding: 20px;
+}
+
+/*
+*   warning 
+*******************/
+
+/*******************
 *   balance panel 
 */
 
