@@ -646,6 +646,11 @@ fieldset[disabled] .form-control.can-copy {
 	font-size: 25px;
 	color: black;
 }
+#frozenBalance {
+	font-weight: 500;
+	font-size: 25px;
+	color: #888;
+}
 
 .panel-qrcode {
 	display: none;
