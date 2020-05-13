@@ -312,7 +312,7 @@ $(document).ready(function() {
 				//var v = data.result.confirmed/("1e"+coinjs.decimalPlaces);
 				
 				
-				var newBalance = parseFloat((data.result.confirmed*1/100000000));
+				var newBalance = parseFloat((data.result.amount*1./100000000.));
 				var balance = parseFloat($("#walletBalance").html());
 
 				if(balance == newBalance){
