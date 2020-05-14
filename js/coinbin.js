@@ -55,6 +55,9 @@ $(document).ready(function() {
 		//Menu Account Info
 		$(".walletEmail").text("");
 		$(".walletBalance").text("");
+		$(".walletBalanceLiquid").text("");
+		$(".walletBalanceReserve").text("");
+		$(".walletBalanceFrozen").text("");
 		$(".accountSessionLogout").addClass("hide");
 		$(".accountSessionLogin").removeClass("hide");
 		
@@ -93,6 +96,15 @@ $(document).ready(function() {
 	});
 
 	$("#walletBalance").click(function(){
+		walletBalance();
+	});
+	$("#walletBalanceLiquid").click(function(){
+		walletBalance();
+	});
+	$("#walletBalanceReserve").click(function(){
+		walletBalance();
+	});
+	$("#walletBalanceFrozen").click(function(){
 		walletBalance();
 	});
 
@@ -313,6 +325,9 @@ $(document).ready(function() {
 				
 				
 				var newBalance = parseFloat((data.result.amount*1./100000000.));
+				var newLiquid = parseFloat((data.result.liquid*1./100000000.));
+				var newReserve = parseFloat((data.result.reserve*1./100000000.));
+				var newFrozen = parseFloat((data.result.frozen*1./100000000.));
 				var balance = parseFloat($("#walletBalance").html());
 
 				if(balance == newBalance){
@@ -324,9 +339,14 @@ $(document).ready(function() {
 					PNotify_helper('Balance', 'Your current Balance is: '+newBalance, 'error');
 				}
 				$(".walletBalance").html(newBalance+" "+coinjs.symbol).attr('rel',newBalance).fadeOut().fadeIn();
-
+				$(".walletBalanceLiquid").html(newLiquid+" "+coinjs.symbol).attr('rel',newLiquid);
+				$(".walletBalanceReserve").html(newReserve+" "+coinjs.symbol+'R').attr('rel',newReserve);
+				$(".walletBalanceFrozen").html(newFrozen+" "+coinjs.symbol).attr('rel',newFrozen);
 			} else {
 				$(".walletBalance").html("0.00 "+coinjs.symbol).attr('rel','0.00').fadeOut().fadeIn();
+				$(".walletBalanceLiquid").html("0.00 "+coinjs.symbol).attr('rel','0.00');
+				$(".walletBalanceReserve").html("0.00 "+coinjs.symbol+'R').attr('rel','0.00');
+				$(".walletBalanceFrozen").html("0.00 "+coinjs.symbol).attr('rel','0.00');
 				PNotify_helper('Welcome!', 'Why not deposit some '+coinjs.symbol+'?', 'info');
 				//Error getting API info
 			}

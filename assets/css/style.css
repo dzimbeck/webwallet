@@ -643,8 +643,23 @@ fieldset[disabled] .form-control.can-copy {
 }
 #walletBalance {
 	font-weight: 500;
-	font-size: 25px;
+	font-size: 20px;
 	color: black;
+}
+#walletBalanceLiquid {
+	font-weight: 500;
+	font-size: 25px;
+	color: #2da5e0;
+}
+#walletBalanceReserve {
+	font-weight: 500;
+	font-size: 25px;
+	color: #c06a15;
+}
+#walletBalanceFrozen {
+	font-weight: 500;
+	font-size: 25px;
+	color: #808080;
 }
 
 .panel-qrcode {
