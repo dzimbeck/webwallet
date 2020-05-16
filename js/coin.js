@@ -23,7 +23,7 @@
 	coinjs.txExtraTimeField = true;
 	coinjs.decimalPlaces = 8;
 	coinjs.symbol = 'BAY';
-	coinjs.debug = false;
+	coinjs.debug = true;
 	coinjs.block_processor = 'bp';
 
 	
@@ -1139,6 +1139,7 @@
 					console.log("address: "+address);
 					console.log("pubkeyScript: "+pubkeyScript);
 				}
+				var liquid = 0;
 				var value = 0;
 				var total = 0;
 				var x = {};
@@ -1169,31 +1170,38 @@
 						for(var i in dataJSON.result){
 							var o = dataJSON.result[i];
 							
-							if (o.tx_hash){
-								var tx = o.tx_hash;
+							if (o.txid){
+								var tx = o.txid;
 								var script =  o.script;
 								
 								
 								//var tx = ((""+o.tx_hash).match(/.{1,2}/g).reverse()).join("")+'';
 								//if(tx.match(/^[a-f0-9]+$/) && scriptPubKey_buffer == script){
 								if(tx.match(/^[a-f0-9]+$/)){
-									var n = o.tx_pos;
+									if (coinjs.debug) {
+									console.log('unspent: ', o);
+									}
+									var n = o.vout;
 									var script = inputScript;
-									var amount = o.value;
+									var oliquid = o.liquid*1e8;
+									var amount = o.amount*1e8;
 									
 									
 									self.addinput(tx, n, script);
+									liquid += oliquid*1;
 									value += amount*1;
 									total++;
 								}
 							}
 						}
 						x.unspent = dataJSON.result;
+						x.liquid = liquid;
 						x.value = value;
 						x.total = total;
 						
 						if (coinjs.debug) {
 							console.log('x.unspent = data.result: '+x.unspent);
+							console.log('x.liquid = data.liquid: '+x.liquid);
 							console.log('x.value = data.value: '+x.value);
 							console.log('x.total = data.total: '+x.total);
 						}

@@ -141,10 +141,11 @@ $(document).ready(function() {
 		$("#walletConfirmSend").html('<span class="glyphicon glyphicon-repeat glyphicon-spin"></span> Send');
 		tx.addUnspent($("#walletAddress").html(), function(data){
 
+			var dliquid = (data.liquid/100000000).toFixed(8) * 1;
 			var dvalue = (data.value/100000000).toFixed(8) * 1;
 			total = (total*1).toFixed(8) * 1;
 			
-			if(dvalue>=total){
+			if(dliquid>=total){
 				var change = dvalue-total;
 				if((change*1)>0){
 					tx.addoutput($("#walletAddress").html(), change);
@@ -185,11 +186,11 @@ $(document).ready(function() {
 						callback_result =  dataJSON.result
 						var success = false;
 						if(coinjs.block_processor == 'bp'){
-							if(dataJSON.status == "success"){
+							if(dataJSON.result.status == "success"){
 								success = true;
-								callback_result = dataJSON.tx;							
+								callback_result = dataJSON.result.tx;
 							}else{
-								callback_result = dataJSON.msg;							
+								callback_result = dataJSON.result.msg;
 							}
 						}
 						if(success || callback_result.match(/^[a-f0-9]+$/)){
@@ -227,7 +228,7 @@ $(document).ready(function() {
 
 				}, signed);
 			} else {
-				$("#walletSendConfirmStatus").removeClass("hidden").addClass('alert-danger').html("You have a confirmed balance of "+dvalue+" "+coinjs.symbol+", unable to send "+total+" "+coinjs.symbol+"").fadeOut().fadeIn();
+				$("#walletSendConfirmStatus").removeClass("hidden").addClass('alert-danger').html("You have a confirmed liquid balance of "+dliquid+" "+coinjs.symbol+", unable to send "+total+" "+coinjs.symbol+"").fadeOut().fadeIn();
 				$("#walletConfirmSend").html("Send");
 				thisbtn.attr('disabled',false);
 			}
