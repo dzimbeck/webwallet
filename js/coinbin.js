@@ -116,9 +116,6 @@ $(document).ready(function() {
 		var devamount = $("#developerDonation");
 
 		var devamountVal = devamount.val()*1;
-		if((devamountVal)>0){
-			tx.addoutput(devaddr, devamountVal);
-		}
 
 		//Update timestamp
 		$("#nTime").val(Date.now() / 1000 | 0);
@@ -127,110 +124,268 @@ $(document).ready(function() {
 		}
 		
 		var total = (devamountVal) + (txfee.val()*1);
+		var payees = 0;
 
 		$.each($("#walletSpendTo .output"), function(i,o){
 			var addr = $('.addressTo',o);
 			var amount = $('.amount',o);
 			if(amount.val()*1>0){
 				total += amount.val()*1;
-				tx.addoutput(addr.val(), amount.val()*1);
+				payees++;
 			}
 		});
+		if((devamountVal)>0){
+			payees++;
+		}
 
 		thisbtn.attr('disabled',true);
 		$("#walletConfirmSend").html('<span class="glyphicon glyphicon-repeat glyphicon-spin"></span> Send');
+
+		var send_liquid = $("#walletSpendTypeLiquid").prop("checked");
+		var send_reserve = $("#walletSpendTypeReserve").prop("checked");
+
 		tx.addUnspent($("#walletAddress").html(), function(data){
 
+			var dreserve = (data.reserve/100000000).toFixed(8) * 1;
 			var dliquid = (data.liquid/100000000).toFixed(8) * 1;
 			var dvalue = (data.value/100000000).toFixed(8) * 1;
 			total = (total*1).toFixed(8) * 1;
 			
-			if(dliquid>=total){
-				var change = dvalue-total;
-				if((change*1)>0){
-					tx.addoutput($("#walletAddress").html(), change);
-				}
-
-				// clone the transaction with out using coinjs.clone() function as it gives us trouble
-				var tx2 = coinjs.transaction(); 
-				var txunspent = tx2.deserialize(tx.serialize()); 
-
-				// then sign, regular wallet
-				var signed = txunspent.sign($("#walletKeys .privkey").val());
-
-				// then sign again, if multisig wallet
-				if ($("#walletKeys .privkey2").val() != "") {
-					txunspent = tx2.deserialize(signed); 
-					signed = txunspent.sign($("#walletKeys .privkey2").val());
-				}
-				if (debug) {
-					console.log("tx:" + signed);
-				}
-				//check if address is multisig, then sign with second private key
-				/*
-				var profile_data;
-				profile_data = HTML5.sessionStorage('profile_data').get();
-				if (profile_data.wallet_type == "multisig")
-					alert("multisig address");
-				else
-					alert("regular address");
-				*/
-
-				// and finally broadcast!
-				tx2.broadcast(function(data){
-					dataJSON = JSON.parse(data);
-					if (debug) {					
-						console.log(dataJSON);
+			if (send_liquid) {
+				if(dliquid>=total){
+					
+					$.each($("#walletSpendTo .output"), function(i,o){
+						var addr = $('.addressTo',o);
+						var amount = $('.amount',o);
+						if(amount.val()*1>0){
+							tx.addoutput(addr.val(), amount.val()*1);
+						}
+					});
+					
+					if((devamountVal)>0){
+						tx.addoutput(devaddr, devamountVal);
 					}
-					if(dataJSON.api_status=="success" || dataJSON.status){
-						callback_result =  dataJSON.result
-						var success = false;
-						if(coinjs.block_processor == 'bp'){
-							if(dataJSON.result.status == "success"){
-								success = true;
-								callback_result = dataJSON.result.tx;
-							}else{
-								callback_result = dataJSON.result.msg;
+					
+					var change = dvalue-total;
+					if((change*1)>0){
+						tx.addoutput($("#walletAddress").html(), change);
+					}
+	
+					// clone the transaction with out using coinjs.clone() function as it gives us trouble
+					var tx2 = coinjs.transaction(); 
+					var txunspent = tx2.deserialize(tx.serialize()); 
+	
+					// then sign, regular wallet
+					var signed = txunspent.sign($("#walletKeys .privkey").val());
+	
+					// then sign again, if multisig wallet
+					if ($("#walletKeys .privkey2").val() != "") {
+						txunspent = tx2.deserialize(signed); 
+						signed = txunspent.sign($("#walletKeys .privkey2").val());
+					}
+					if (debug) {
+						console.log("tx:" + signed);
+					}
+					//check if address is multisig, then sign with second private key
+					/*
+					var profile_data;
+					profile_data = HTML5.sessionStorage('profile_data').get();
+					if (profile_data.wallet_type == "multisig")
+						alert("multisig address");
+					else
+						alert("regular address");
+					*/
+	
+					// and finally broadcast!
+					tx2.broadcast(function(data){
+						dataJSON = JSON.parse(data);
+						if (debug) {					
+							console.log(dataJSON);
+						}
+						if(dataJSON.api_status=="success" || dataJSON.status){
+							callback_result =  dataJSON.result
+							var success = false;
+							if(coinjs.block_processor == 'bp'){
+								if(dataJSON.result.status == "success"){
+									success = true;
+									callback_result = dataJSON.result.tx;
+								}else{
+									callback_result = dataJSON.result.msg;
+								}
+							}
+							if(success || callback_result.match(/^[a-f0-9]+$/)){
+								var mess = 'Your transaction was successfully sent: <br />'
+								 +'<a href="https://chainz.cryptoid.info/bay/tx.dws?'+callback_result+'.htm" target="_blank" >Txid: ' + callback_result + '</a>';
+								// +'<a href="http://explorer.bitbay.market/tx/'+callback_result+'" target="_blank" >Txid: ' + callback_result + '</a>';
+								$("#walletSendConfirmStatus").removeClass('hidden').removeClass('alert-danger').addClass('alert-success').html(mess);
+	
+								if (devamountVal > 0)
+									$("#walletSendConfirmStatus").html( $("#walletSendConfirmStatus").html() + '<br /> <span class="glyphicon glyphicon-heart"></span> Thank you very much for your donation');
+								$("#walletConfirmSend").html("Send");
+								$("#walletConfirmSend").addClass("hide");
+							} else {
+								//$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-danger').html(unescape(callback_result).replace(/\+/g,' '));
+								$("#walletSendConfirmStatus").removeClass('hidden').removeClass('alert-success').addClass('alert-danger').html(unescape(callback_result));
+								$("#walletSendFailTransaction").removeClass('hidden');
+								$("#walletSendFailTransaction textarea").val(signed);
+								$("#walletConfirmSend").html("Send");
+								thisbtn.attr('disabled',false);
 							}
 						}
-						if(success || callback_result.match(/^[a-f0-9]+$/)){
-							var mess = 'Your transaction was successfully sent: <br />'
-							 +'<a href="https://chainz.cryptoid.info/bay/tx.dws?'+callback_result+'.htm" target="_blank" >Txid: ' + callback_result + '</a>';
-							// +'<a href="http://explorer.bitbay.market/tx/'+callback_result+'" target="_blank" >Txid: ' + callback_result + '</a>';
-							$("#walletSendConfirmStatus").removeClass('hidden').removeClass('alert-danger').addClass('alert-success').html(mess);
-
-							if (devamountVal > 0)
-								$("#walletSendConfirmStatus").html( $("#walletSendConfirmStatus").html() + '<br /> <span class="glyphicon glyphicon-heart"></span> Thank you very much for your donation');
-							$("#walletConfirmSend").html("Send");
-							$("#walletConfirmSend").addClass("hide");
+						/*	
+						if($(data).find("result").text()=="1"){
+							$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-success').html("txid: "+$(data).find("txid").text());
 						} else {
-							//$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-danger').html(unescape(callback_result).replace(/\+/g,' '));
-							$("#walletSendConfirmStatus").removeClass('hidden').removeClass('alert-success').addClass('alert-danger').html(unescape(callback_result));
+							$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-danger').html(unescape($(data).find("response").text()).replace(/\+/g,' '));
 							$("#walletSendFailTransaction").removeClass('hidden');
 							$("#walletSendFailTransaction textarea").val(signed);
-							$("#walletConfirmSend").html("Send");
 							thisbtn.attr('disabled',false);
 						}
+						*/
+	
+						// update wallet balance
+						walletBalance();
+	
+					}, signed);
+				} else {
+					$("#walletSendConfirmStatus").removeClass("hidden").addClass('alert-danger').html("You have a confirmed liquid balance of "+dliquid+" "+coinjs.symbol+", unable to send "+total+" "+coinjs.symbol+"").fadeOut().fadeIn();
+					$("#walletConfirmSend").html("Send");
+					thisbtn.attr('disabled',false);
+				}
+			}
+			else if (send_reserve) {
+				if(dreserve>=total){
+					
+					// make F notations
+					var out_indexes = "";
+					if (payees == 1) { // trick to have triple to use sort
+							var out_index = String(0+tx.ins.length);
+							out_indexes = out_index+":"+out_index+":"+out_index;
 					}
-					/*	
-					if($(data).find("result").text()=="1"){
-						$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-success').html("txid: "+$(data).find("txid").text());
-					} else {
-						$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-danger').html(unescape($(data).find("response").text()).replace(/\+/g,' '));
-						$("#walletSendFailTransaction").removeClass('hidden');
-						$("#walletSendFailTransaction textarea").val(signed);
-						thisbtn.attr('disabled',false);
+					else if (payees == 2) { // trick to have triple to use sort
+							var out_index1 = String(0+tx.ins.length);
+							var out_index2 = String(1+tx.ins.length);
+							out_indexes = out_index1+":"+out_index1+":"+out_index2+":"+out_index2;
 					}
+					else {
+							for(var i=0; i<payees; i++) {
+									if (out_indexes != "")
+											out_indexes += ":";
+									out_indexes += String(i+tx.ins.length);
+							}
+					}
+					
+					for(var i=0; i<tx.ins.length; i++) {
+						var fnote = "**F**"+out_indexes;
+						var fnoteb = Crypto.charenc.UTF8.stringToBytes(fnote);
+						console.log("fnote:" + fnote);
+						console.log("fnotehex:" + Crypto.util.bytesToHex(fnoteb));
+						tx.adddata(Crypto.util.bytesToHex(fnoteb), 5590);
+					};
+					
+					// sendto
+					$.each($("#walletSpendTo .output"), function(i,o){
+						var addr = $('.addressTo',o);
+						var amount = $('.amount',o);
+						if(amount.val()*1>0){
+							tx.addoutput(addr.val(), amount.val()*1);
+						}
+					});
+					
+					if((devamountVal)>0){
+						tx.addoutput(devaddr, devamountVal);
+					}
+					
+					var change = dvalue-total;
+					if((change*1)>0){
+						tx.addoutput($("#walletAddress").html(), change);
+					}
+	
+					// clone the transaction with out using coinjs.clone() function as it gives us trouble
+					var tx2 = coinjs.transaction(); 
+					var txunspent = tx2.deserialize(tx.serialize()); 
+	
+					// then sign, regular wallet
+					var signed = txunspent.sign($("#walletKeys .privkey").val());
+	
+					// then sign again, if multisig wallet
+					if ($("#walletKeys .privkey2").val() != "") {
+						txunspent = tx2.deserialize(signed); 
+						signed = txunspent.sign($("#walletKeys .privkey2").val());
+					}
+					if (debug) {
+						console.log("tx:" + signed);
+					}
+					//check if address is multisig, then sign with second private key
+					/*
+					var profile_data;
+					profile_data = HTML5.sessionStorage('profile_data').get();
+					if (profile_data.wallet_type == "multisig")
+						alert("multisig address");
+					else
+						alert("regular address");
 					*/
-
-					// update wallet balance
-					walletBalance();
-
-				}, signed);
+	
+					// and finally broadcast!
+					tx2.broadcast(function(data){
+						dataJSON = JSON.parse(data);
+						if (debug) {					
+							console.log(dataJSON);
+						}
+						if(dataJSON.api_status=="success" || dataJSON.status){
+							callback_result =  dataJSON.result
+							var success = false;
+							if(coinjs.block_processor == 'bp'){
+								if(dataJSON.result.status == "success"){
+									success = true;
+									callback_result = dataJSON.result.tx;
+								}else{
+									callback_result = dataJSON.result.msg;
+								}
+							}
+							if(success || callback_result.match(/^[a-f0-9]+$/)){
+								var mess = 'Your transaction was successfully sent: <br />'
+								 +'<a href="https://chainz.cryptoid.info/bay/tx.dws?'+callback_result+'.htm" target="_blank" >Txid: ' + callback_result + '</a>';
+								// +'<a href="http://explorer.bitbay.market/tx/'+callback_result+'" target="_blank" >Txid: ' + callback_result + '</a>';
+								$("#walletSendConfirmStatus").removeClass('hidden').removeClass('alert-danger').addClass('alert-success').html(mess);
+	
+								if (devamountVal > 0)
+									$("#walletSendConfirmStatus").html( $("#walletSendConfirmStatus").html() + '<br /> <span class="glyphicon glyphicon-heart"></span> Thank you very much for your donation');
+								$("#walletConfirmSend").html("Send");
+								$("#walletConfirmSend").addClass("hide");
+							} else {
+								//$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-danger').html(unescape(callback_result).replace(/\+/g,' '));
+								$("#walletSendConfirmStatus").removeClass('hidden').removeClass('alert-success').addClass('alert-danger').html(unescape(callback_result));
+								$("#walletSendFailTransaction").removeClass('hidden');
+								$("#walletSendFailTransaction textarea").val(signed);
+								$("#walletConfirmSend").html("Send");
+								thisbtn.attr('disabled',false);
+							}
+						}
+						/*	
+						if($(data).find("result").text()=="1"){
+							$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-success').html("txid: "+$(data).find("txid").text());
+						} else {
+							$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-danger').html(unescape($(data).find("response").text()).replace(/\+/g,' '));
+							$("#walletSendFailTransaction").removeClass('hidden');
+							$("#walletSendFailTransaction textarea").val(signed);
+							thisbtn.attr('disabled',false);
+						}
+						*/
+	
+						// update wallet balance
+						walletBalance();
+	
+					}, signed);
+				} else {
+					$("#walletSendConfirmStatus").removeClass("hidden").addClass('alert-danger').html("You have a confirmed reserve balance of "+dreserve+" "+coinjs.symbol+", unable to send "+total+" "+coinjs.symbol+"").fadeOut().fadeIn();
+					$("#walletConfirmSend").html("Send");
+					thisbtn.attr('disabled',false);
+				}
 			} else {
-				$("#walletSendConfirmStatus").removeClass("hidden").addClass('alert-danger').html("You have a confirmed liquid balance of "+dliquid+" "+coinjs.symbol+", unable to send "+total+" "+coinjs.symbol+"").fadeOut().fadeIn();
-				$("#walletConfirmSend").html("Send");
-				thisbtn.attr('disabled',false);
+					$("#walletSendConfirmStatus").removeClass("hidden").addClass('alert-danger').html("Unknown send type").fadeOut().fadeIn();
+					$("#walletConfirmSend").html("Send");
+					thisbtn.attr('disabled',false);
 			}
 
 			$("#walletLoader").addClass("hidden");

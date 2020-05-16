@@ -1104,14 +1104,14 @@
 		}
 
 		/* add data to a transaction */
-		r.adddata = function(data){
+		r.adddata = function(data, value){
 			var r = false;
 			if(((data.match(/^[a-f0-9]+$/gi)) && data.length<160) && (data.length%2)==0) {
 				var s = coinjs.script();
 				s.writeOp(106); // OP_RETURN
 				s.writeBytes(Crypto.util.hexToBytes(data));
 				o = {};
-				o.value = 0;
+				o.value = value;
 				o.script = s;
 				return this.outs.push(o);
 			}
@@ -1139,6 +1139,7 @@
 					console.log("address: "+address);
 					console.log("pubkeyScript: "+pubkeyScript);
 				}
+				var reserve = 0;
 				var liquid = 0;
 				var value = 0;
 				var total = 0;
@@ -1183,11 +1184,12 @@
 									}
 									var n = o.vout;
 									var script = inputScript;
+									var oreserve = o.reserve*1e8;
 									var oliquid = o.liquid*1e8;
 									var amount = o.amount*1e8;
 									
-									
 									self.addinput(tx, n, script);
+									reserve += oreserve*1;
 									liquid += oliquid*1;
 									value += amount*1;
 									total++;
@@ -1195,12 +1197,14 @@
 							}
 						}
 						x.unspent = dataJSON.result;
+						x.reserve = reserve;
 						x.liquid = liquid;
 						x.value = value;
 						x.total = total;
 						
 						if (coinjs.debug) {
 							console.log('x.unspent = data.result: '+x.unspent);
+							console.log('x.reserve = data.reserve: '+x.reserve);
 							console.log('x.liquid = data.liquid: '+x.liquid);
 							console.log('x.value = data.value: '+x.value);
 							console.log('x.total = data.total: '+x.total);

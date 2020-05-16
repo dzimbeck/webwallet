@@ -517,6 +517,11 @@ body.loggedin {
 fieldset[disabled] .form-control.can-copy {
   cursor: text;
 }		
+#walletSpendType {
+	margin-left: 15px;
+	margin-bottom: 15px;
+}
+
 #walletSpendTo {
 	margin-bottom: 15px;
 }
