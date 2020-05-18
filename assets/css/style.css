@@ -13,6 +13,7 @@ a,
 a:hover,
 a:focus {
 	color: #6456ab;
+    text-decoration: none;
 }
 /* 
 front
@@ -270,6 +271,7 @@ h1,h2,h3,h4,h5,h6 {
 #wallet label {
 	display: inline;
 	font-weight: normal;
+    line-height: 26px;
 }
 #wallet label a {
 	font-weight: 500;
@@ -518,10 +520,15 @@ fieldset[disabled] .form-control.can-copy {
   cursor: text;
 }		
 #walletSpendType {
+/*
 	margin-left: 15px;
 	margin-bottom: 15px;
+*/
+    margin: 10px 0;
 }
-
+.walletSpendRadioButton {
+    margin-right: 10px !important;
+}
 #walletSpendTo {
 	margin-bottom: 15px;
 }

@@ -258,11 +258,13 @@
 										
 										<!-- Wallet Panel -->
 										<div class="row">
+<!--
 											<div id="warning" class="col-md-12">
 												<div class="col-md-12">
 													<strong>IMPORTANT NOTICE: </strong> The BitBay Web Wallet is currently in development mode while we update it to work with the Dynamic Peg protocol.  Your funds are safe, but we advise you to not attempt to send funds from the wallet. If you want to access funds in the Web wallet please read the <strong><a href="https://forum.bitbay.market/t/how-to-import-your-bitbay-web-wallet-private-key-into-the-bitbay-qt-wallet/2227">support article</a></strong>
 												</div>
 											</div>
+-->
 
 											<div class="col-md-12">
 																								
@@ -380,8 +382,8 @@
 															<div class="tab-pane fade active in" id="walletSpendTab">
 																<div id="walletSpend">
 																	<div class="row" id="walletSpendType">
-																		<input id="walletSpendTypeLiquid" name="walletSpendTypeName" type="radio" checked=true /><label for="walletSpendTypeLiquid">Send Liquidity</label><br/>
-																		<input id="walletSpendTypeReserve" name="walletSpendTypeName" type="radio" /><label for="walletSpendTypeReserve">Send Reserves (1-month timelock)</label><br/>
+																		<input id="walletSpendTypeLiquid" class="walletSpendRadioButton" name="walletSpendTypeName" type="radio" checked=true /><label for="walletSpendTypeLiquid">Send Liquidity</label><br/>
+																		<input id="walletSpendTypeReserve" class="walletSpendRadioButton" name="walletSpendTypeName" type="radio" /><label for="walletSpendTypeReserve">Send Reserves (1-month timelock)</label><br/>
 																		<br/>
 																	</div>
 																	<div class="row" id="walletSpendTo">
