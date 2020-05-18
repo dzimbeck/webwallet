@@ -30,8 +30,7 @@
 	//1jLVpwtNMfXWaHY4eiLDmGuBxokYLgv1X
 
 	/* other vars */
-	coinjs.developer = 'bSMzMgbBQSmEMw8y3D4QHbVb5T8YF2X4nx'; // Bitbay (BAY)
-	coinjs.developer = 'bZXmqJqPJ9fyLyCPKAYEaKJqGwBA6jaQHR'; // Bitbay developer fund (BAY)
+	coinjs.developer = 'bbHoxWZfj16d7xs4hrLfnYxMqLAJby9sr3'; // Bitbay foundation fund
 
 	/* bit(coinb.in) api vars */
 	//coinjs.host = ('https:'==document.location.protocol?'https://':'http://')+'wallet.bitbay.market/api.php';
