@@ -101,12 +101,12 @@
 									</li>
 									<li class="divider-text"></li>
 									<li class="hidden"><a href="#newAddress" data-toggle="tab">New Address</a></li>
-									<li class="hidden"><a href="#newTimeLocked" data-toggle="tab">Time Locked Address</a></li class="hidden">
-									<li class="hidden"><a href="#newMultiSig" data-toggle="tab">MultiSig Address</a></li class="hidden">
-									<li><a href="#verify" data-toggle="tab">Verify</a></li class="hidden">
-									<li class="hidden"><a href="#newTransaction" data-toggle="tab">Transaction</a></li class="hidden">
-									<li class="hidden"><a href="#sign" data-toggle="tab">Sign</a></li class="hidden">
-									<li class="hidden"><a href="#broadcast" data-toggle="tab">Broadcast</a></li class="hidden">
+									<li><a href="#newTimeLocked" data-toggle="tab">Time Locked Address</a></li>
+									<li><a href="#newMultiSig" data-toggle="tab">MultiSig Address</a></li>
+									<li><a href="#verify" data-toggle="tab">Verify</a></li>
+									<li><a href="#newTransaction" data-toggle="tab">Transaction</a></li>
+									<li><a href="#sign" data-toggle="tab">Sign</a></li>
+									<li><a href="#broadcast" data-toggle="tab">Broadcast</a></li>
 									<li class="divider-text logouthide"></li>
 									<li>
 										<a id="walletLogout" href="#" class="logouthide" role="button" data-destroy="true">Logout</a>
@@ -258,11 +258,13 @@
 										
 										<!-- Wallet Panel -->
 										<div class="row">
+<!--
 											<div id="warning" class="col-md-12">
 												<div class="col-md-12">
 													<strong>IMPORTANT NOTICE: </strong> The BitBay Web Wallet is currently in development mode while we update it to work with the Dynamic Peg protocol.  Your funds are safe, but we advise you to not attempt to send funds from the wallet. If you want to access funds in the Web wallet please read the <strong><a href="https://forum.bitbay.market/t/how-to-import-your-bitbay-web-wallet-private-key-into-the-bitbay-qt-wallet/2227">support article</a></strong>
 												</div>
 											</div>
+-->
 
 											<div class="col-md-12">
 																								
@@ -379,6 +381,11 @@
 															</div>
 															<div class="tab-pane fade active in" id="walletSpendTab">
 																<div id="walletSpend">
+																	<div class="row" id="walletSpendType">
+																		<input id="walletSpendTypeLiquid" class="walletSpendRadioButton" name="walletSpendTypeName" type="radio" checked=true /><label for="walletSpendTypeLiquid">Send Liquidity</label><br/>
+																		<input id="walletSpendTypeReserve" class="walletSpendRadioButton" name="walletSpendTypeName" type="radio" /><label for="walletSpendTypeReserve">Send Reserves (1-month timelock)</label><br/>
+																		<br/>
+																	</div>
 																	<div class="row" id="walletSpendTo">
 																		<div class="form-horizontal output">
 																			<div class="col-sm-7">
@@ -412,7 +419,7 @@
 																	</div><br>
 																	<div class="alert alert-danger hidden" id="walletSendStatus"></div>
 																	<div class="form-send-buttons">
-																		<button class="btn-flatbay btn-flatbay-inactive" id="walletSendBtn" type="button" disabled>Send</button> 
+																		<button class="btn-flatbay btn-flatbay-inactive" id="walletSendBtn" type="button">Send</button> 
 																		<button class="btn-flat-purple" id="walletSendReset" type="button">Reset</button>
 																	</div>
 																</div>
@@ -428,16 +435,28 @@
 													<div class="bs-component panel-right">
 														<div class="panel panel-default panel-balance">
 															<div class="panel-body">
-																<label>Spendable:</label> 
+																
+																<label>Your Total:</label> 
 																<div>
 																	<a href="javascript:;" id="walletBalance" class="walletBalance fade in">0.00</a> 
 																	<span class="hidden" id="walletLoader"><span class="glyphicon glyphicon-repeat glyphicon-spin"></span></span> 
 																</div>
-                                <label>Frozen:</label> 
+																
+																<label>Your Liquidity:</label> 
 																<div>
-																	<a href="javascript:;" id="frozenBalance" class="frozenBalance fade in">0.00</a> 
-																	<span class="hidden" id="frozenLoader"><span class="glyphicon glyphicon-repeat glyphicon-spin"></span></span> 
+																	<a href="javascript:;" id="walletBalanceLiquid" class="walletBalanceLiquid">0.00</a> 
 																</div>
+																
+																<label>Your Reserve:</label> 
+																<div>
+																	<a href="javascript:;" id="walletBalanceReserve" class="walletBalanceReserve">0.00</a> 
+																</div>
+																
+																<label>Frozen coins:</label> 
+																<div>
+																	<a href="javascript:;" id="walletBalanceFrozen" class="walletBalanceFrozen">0.00</a> 
+																</div>
+																
 																<a href="javascript:;" id="walletHistory" target="_blank">History</a>
 															</div>
 														</div>														

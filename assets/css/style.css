@@ -13,6 +13,7 @@ a,
 a:hover,
 a:focus {
 	color: #6456ab;
+    text-decoration: none;
 }
 /* 
 front
@@ -270,6 +271,7 @@ h1,h2,h3,h4,h5,h6 {
 #wallet label {
 	display: inline;
 	font-weight: normal;
+    line-height: 26px;
 }
 #wallet label a {
 	font-weight: 500;
@@ -517,6 +519,16 @@ body.loggedin {
 fieldset[disabled] .form-control.can-copy {
   cursor: text;
 }		
+#walletSpendType {
+/*
+	margin-left: 15px;
+	margin-bottom: 15px;
+*/
+    margin: 10px 0;
+}
+.walletSpendRadioButton {
+    margin-right: 10px !important;
+}
 #walletSpendTo {
 	margin-bottom: 15px;
 }
@@ -643,13 +655,23 @@ fieldset[disabled] .form-control.can-copy {
 }
 #walletBalance {
 	font-weight: 500;
-	font-size: 25px;
+	font-size: 20px;
 	color: black;
 }
-#frozenBalance {
+#walletBalanceLiquid {
 	font-weight: 500;
 	font-size: 25px;
-	color: #888;
+	color: #2da5e0;
+}
+#walletBalanceReserve {
+	font-weight: 500;
+	font-size: 25px;
+	color: #c06a15;
+}
+#walletBalanceFrozen {
+	font-weight: 500;
+	font-size: 25px;
+	color: #808080;
 }
 
 .panel-qrcode {

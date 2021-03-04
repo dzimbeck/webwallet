@@ -23,15 +23,14 @@
 	coinjs.txExtraTimeField = true;
 	coinjs.decimalPlaces = 8;
 	coinjs.symbol = 'BAY';
-	coinjs.debug = false;
+	coinjs.debug = true;
 	coinjs.block_processor = 'bp';
 
 	
 	//1jLVpwtNMfXWaHY4eiLDmGuBxokYLgv1X
 
 	/* other vars */
-	coinjs.developer = 'bSMzMgbBQSmEMw8y3D4QHbVb5T8YF2X4nx'; // Bitbay (BAY)
-	coinjs.developer = 'bZXmqJqPJ9fyLyCPKAYEaKJqGwBA6jaQHR'; // Bitbay developer fund (BAY)
+	coinjs.developer = 'bbHoxWZfj16d7xs4hrLfnYxMqLAJby9sr3'; // Bitbay foundation fund
 
 	/* bit(coinb.in) api vars */
 	//coinjs.host = ('https:'==document.location.protocol?'https://':'http://')+'wallet.bitbay.market/api.php';
@@ -1104,14 +1103,14 @@
 		}
 
 		/* add data to a transaction */
-		r.adddata = function(data){
+		r.adddata = function(data, value){
 			var r = false;
 			if(((data.match(/^[a-f0-9]+$/gi)) && data.length<160) && (data.length%2)==0) {
 				var s = coinjs.script();
 				s.writeOp(106); // OP_RETURN
 				s.writeBytes(Crypto.util.hexToBytes(data));
 				o = {};
-				o.value = 0;
+				o.value = value;
 				o.script = s;
 				return this.outs.push(o);
 			}
@@ -1139,6 +1138,8 @@
 					console.log("address: "+address);
 					console.log("pubkeyScript: "+pubkeyScript);
 				}
+				var reserve = 0;
+				var liquid = 0;
 				var value = 0;
 				var total = 0;
 				var x = {};
@@ -1169,31 +1170,41 @@
 						for(var i in dataJSON.result){
 							var o = dataJSON.result[i];
 							
-							if (o.tx_hash){
-								var tx = o.tx_hash;
+							if (o.txid){
+								var tx = o.txid;
 								var script =  o.script;
 								
 								
 								//var tx = ((""+o.tx_hash).match(/.{1,2}/g).reverse()).join("")+'';
 								//if(tx.match(/^[a-f0-9]+$/) && scriptPubKey_buffer == script){
 								if(tx.match(/^[a-f0-9]+$/)){
-									var n = o.tx_pos;
+									if (coinjs.debug) {
+									console.log('unspent: ', o);
+									}
+									var n = o.vout;
 									var script = inputScript;
-									var amount = o.value;
-									
+									var oreserve = o.reserve*1e8;
+									var oliquid = o.liquid*1e8;
+									var amount = o.amount*1e8;
 									
 									self.addinput(tx, n, script);
+									reserve += oreserve*1;
+									liquid += oliquid*1;
 									value += amount*1;
 									total++;
 								}
 							}
 						}
 						x.unspent = dataJSON.result;
+						x.reserve = reserve;
+						x.liquid = liquid;
 						x.value = value;
 						x.total = total;
 						
 						if (coinjs.debug) {
 							console.log('x.unspent = data.result: '+x.unspent);
+							console.log('x.reserve = data.reserve: '+x.reserve);
+							console.log('x.liquid = data.liquid: '+x.liquid);
 							console.log('x.value = data.value: '+x.value);
 							console.log('x.total = data.total: '+x.total);
 						}
